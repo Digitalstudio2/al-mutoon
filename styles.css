@@ -715,3 +715,40 @@ body.dark .q-ev-title{color:#8fe0b6}
 body.dark .q-ev-text{color:#f4f9f6}
 body.dark .q-ev-text mark{background:#9c7a2f;color:#fff}
 body.dark .test-note{color:#a6bab0;border-top-color:#22322a}
+
+/* ============================================================
+   زر تنزيل التطبيق على الشاشة الرئيسية (PWA)
+   ============================================================ */
+.install-app{
+  display:inline-flex;align-items:center;gap:7px;flex:none;
+  background:linear-gradient(135deg,#ecd394 0%,var(--gold) 45%,var(--gold-deep) 100%);
+  color:#3a2a0a;border:1px solid #f6e9c6;border-radius:50px;
+  padding:8px 16px;font-family:inherit;font-size:14px;font-weight:800;line-height:1;
+  cursor:pointer;box-shadow:var(--shadow-gold);transition:.18s
+}
+.install-app:hover{transform:translateY(-1px);filter:brightness(1.04)}
+.install-app[hidden]{display:none!important}
+.install-app .ic{font-size:17px}
+body.dark .install-app{box-shadow:0 6px 18px rgba(0,0,0,.35)}
+
+/* نافذة تعليمات التنزيل */
+.inst-help{
+  position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;
+  background:rgba(4,23,15,.62);padding:18px
+}
+.inst-help.open{display:flex}
+.inst-card{
+  background:var(--paper);color:var(--ink);width:100%;max-width:450px;text-align:right;
+  border:1px solid var(--gold);border-top:6px solid var(--gold);border-radius:20px;
+  padding:22px 24px 20px;box-shadow:0 24px 60px rgba(0,0,0,.45)
+}
+.inst-card h4{margin:0 0 10px;color:var(--green);font-size:20px}
+.inst-card p{margin:0 0 8px;font-size:15px}
+.inst-card ol{margin:0 0 16px;padding-right:20px;font-size:15px;line-height:2}
+.inst-card .ic{font-size:17px}
+body.dark .inst-card h4{color:#dff0e7}
+
+@media(max-width:620px){
+  .install-app{padding:8px 12px}
+  .install-app .t{display:none}
+}
