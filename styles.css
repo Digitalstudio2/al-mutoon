@@ -642,3 +642,76 @@ body.dark .player{background:linear-gradient(180deg,rgba(3,15,10,.96),rgba(4,23,
   .pl-sel{max-width:132px}
   .player.mini .pl-now{min-width:0}
 }
+
+/* ============================================================
+   اختبار أكمل الفراغ
+   ============================================================ */
+.test-bar{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  background:var(--paper);border:1px solid var(--line);border-radius:16px;
+  padding:14px 18px;margin-bottom:22px;box-shadow:var(--shadow)
+}
+.test-score{font-size:16px;font-weight:800;color:var(--green-deep);white-space:nowrap}
+.test-score b{color:var(--green);font-family:'Tajawal'}
+.test-progress{flex:1;min-width:120px;height:10px;border-radius:6px;background:var(--green-3);overflow:hidden}
+.test-progress-fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--green-2),var(--green));transition:width .35s}
+.test-list{display:flex;flex-direction:column;gap:14px}
+.q-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:16px;
+  padding:18px 20px;box-shadow:var(--shadow);transition:.15s
+}
+.q-card:hover{border-color:var(--gold)}
+.q-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.q-bab{
+  font-family:'Tajawal';font-size:12px;font-weight:800;color:var(--green);
+  background:var(--green-3);border:1px solid var(--line);border-radius:50px;padding:3px 12px
+}
+.q-num{font-family:'Tajawal';font-size:12px;font-weight:800;color:var(--muted)}
+.q-text{
+  font-family:'Amiri',serif;font-size:19px;line-height:2.1;color:var(--ink);
+  margin:0 0 12px
+}
+.q-input{
+  font-family:'Amiri',serif;font-size:19px;color:var(--green-deep);text-align:center;
+  border:0;border-bottom:2px dashed var(--gold);background:transparent;
+  min-width:110px;padding:2px 8px;outline:none;transition:.15s
+}
+.q-input:focus{border-bottom-color:var(--green);background:var(--green-3)}
+.q-input:disabled{color:var(--muted);border-bottom-color:var(--line)}
+.q-actions{display:flex;gap:10px}
+.q-check{padding:8px 22px;font-size:14px}
+.q-result{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+.q-verdict{font-family:'Tajawal';font-size:14px;font-weight:800;margin-bottom:8px}
+.q-verdict.ok{color:var(--green)}
+.q-verdict.bad{color:#b23b3b}
+.q-verdict b{color:var(--green-deep)}
+.q-evidence{
+  background:var(--green-3);border:1px solid var(--line);border-radius:12px;padding:10px 14px
+}
+.q-ev-title{font-family:'Tajawal';font-size:12px;font-weight:800;color:var(--green);margin-bottom:4px}
+.q-ev-text{font-family:'Amiri',serif;font-size:17px;line-height:2;color:var(--ink);margin:0}
+.q-ev-text mark{background:#ffe9a8;color:inherit;border-radius:4px;padding:0 3px}
+.test-note{
+  margin-top:20px;font-size:13px;color:var(--muted);text-align:center;
+  border-top:1px dashed var(--line);padding-top:14px
+}
+body.dark .test-bar{background:#101a15;border-color:#22322a}
+body.dark .test-score{color:#dff0e7}
+body.dark .test-score b{color:#8fe0b6}
+body.dark .test-progress{background:#16241e}
+body.dark .q-card{background:#101a15;border-color:#22322a}
+body.dark .q-card:hover{border-color:var(--gold)}
+body.dark .q-bab{background:#16241e;color:#8fe0b6}
+body.dark .q-num{color:#8fa39a}
+body.dark .q-text{color:#f4f9f6}
+body.dark .q-input{color:#dff0e7;border-bottom-color:var(--gold)}
+body.dark .q-input:focus{background:#16241e;border-bottom-color:#8fe0b6}
+body.dark .q-input:disabled{color:#8fa39a}
+body.dark .q-verdict.ok{color:#8fe0b6}
+body.dark .q-verdict.bad{color:#ff9d9d}
+body.dark .q-verdict b{color:#dff0e7}
+body.dark .q-evidence{background:#131f19;border-color:#22322a}
+body.dark .q-ev-title{color:#8fe0b6}
+body.dark .q-ev-text{color:#f4f9f6}
+body.dark .q-ev-text mark{background:#9c7a2f;color:#fff}
+body.dark .test-note{color:#a6bab0;border-top-color:#22322a}
