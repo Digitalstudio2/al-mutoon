@@ -1,0 +1,15 @@
+# ملفات مؤقتة للاختبار
+_test*.html
+_shot*.html
+_t*.html
+_s*.html
+_m*.html
+_final*.html
+_dark*.html
+_m2*.html
+*.tmp
+
+# محرّرات
+.vscode/
+.idea/
+*.swp
