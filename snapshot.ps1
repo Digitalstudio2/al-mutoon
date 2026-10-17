@@ -57,5 +57,4 @@ Write-Host "   git checkout $tag        # عرض النسخة (read-only)" -Fore
 Write-Host "   git reset --hard $tag    # يمحو التغييرات الحالية ويعيد هذه النسخة" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "لعرض كل النسخ المحفوظة:" -ForegroundColor DarkGray
-Write-Host "   git tag -l `"snapshot-*`" -n1" -ForegroundColor DarkGray
-EOF
+Write-Host '   git tag -l "snapshot-*" -n1' -ForegroundColor DarkGray
