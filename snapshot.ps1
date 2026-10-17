@@ -1,11 +1,5 @@
-# ============================================================
-# snapshot.ps1 — حفظ نسخة (snapshot) من المشروع بتعليق وتاريخ
-# الاستخدام:
-#   .\snapshot.ps1 "تعليق يوضّح التغيير"
-# أمثلة:
-#   .\snapshot.ps1 "قبل تعديل الألوان"
-#   .\snapshot.ps1 "بعد إضافة صفحة حفظ التقدّم"
-# ============================================================
+# snapshot.ps1 - save a project snapshot with a comment and date
+# Usage: .\snapshot.ps1 "comment describing the change"
 param(
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$Comment
@@ -18,7 +12,7 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $root
 
 if (-not (Test-Path (Join-Path $root ".git"))) {
-    Write-Host "لا يوجد مستودع git في المجلد. شغّل: git init" -ForegroundColor Red
+    Write-Host "No git repository found in this folder. Run: git init" -ForegroundColor Red
     exit 1
 }
 
@@ -27,18 +21,18 @@ $time = Get-Date -Format "HHmm"
 $msgComment = if ($Comment -and $Comment.Count -gt 0) { ($Comment -join " ") } else { "snapshot $date" }
 $fullMsg = "snapshot $date $time - $msgComment"
 
-# تجهيز كل التغييرات (ملفات جديدة + تعديلات + حذف)
+# Stage all changes (new, modified, deleted)
 git add -A
 
-# هل يوجد ما يُحفظ؟
+# Is there anything to save?
 $staged = git diff --cached --name-only
 if (-not $staged) {
-    Write-Host "لا توجد تغييرات لحفظها (working tree clean)." -ForegroundColor Yellow
-    Write-Host "آخر commit: $(git rev-parse --short HEAD)" -ForegroundColor DarkGray
+    Write-Host "No changes to save (working tree clean)." -ForegroundColor Yellow
+    Write-Host "Last commit: $(git rev-parse --short HEAD)" -ForegroundColor DarkGray
     exit 0
 }
 
-Write-Host "الملفات المُضافة:" -ForegroundColor Cyan
+Write-Host "Files staged:" -ForegroundColor Cyan
 $staged | ForEach-Object { Write-Host "  + $_" }
 
 git commit -q -m $fullMsg
@@ -47,14 +41,14 @@ $tag = "snapshot-$date-$time"
 git tag -a $tag -m $fullMsg
 
 Write-Host ""
-Write-Host "تم حفظ النسخة:" -ForegroundColor Green
+Write-Host "Snapshot saved:" -ForegroundColor Green
 Write-Host "   commit : $sha" -ForegroundColor Green
 Write-Host "   tag    : $tag" -ForegroundColor Green
-Write-Host "   تعليق : $fullMsg" -ForegroundColor Green
+Write-Host "   comment: $fullMsg" -ForegroundColor Green
 Write-Host ""
-Write-Host "للعودة إلى هذه النسخة (في حال حدث أي تغيير غير مرغوب):" -ForegroundColor Yellow
-Write-Host "   git checkout $tag        # عرض النسخة (read-only)" -ForegroundColor Yellow
-Write-Host "   git reset --hard $tag    # يمحو التغييرات الحالية ويعيد هذه النسخة" -ForegroundColor Yellow
+Write-Host "To restore this snapshot (if an unwanted change happened):" -ForegroundColor Yellow
+Write-Host "   git checkout $tag        # view (read-only)" -ForegroundColor Yellow
+Write-Host "   git reset --hard $tag    # WARNING: discards current changes, restores snapshot" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "لعرض كل النسخ المحفوظة:" -ForegroundColor DarkGray
+Write-Host "To list all snapshots:" -ForegroundColor DarkGray
 Write-Host '   git tag -l "snapshot-*" -n1' -ForegroundColor DarkGray
