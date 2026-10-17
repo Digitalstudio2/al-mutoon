@@ -49,6 +49,8 @@
     /iphone|ipad|ipod/i.test(ua) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   var isMobile = isIOS || /android|mobile|opera mini|iemobile/i.test(ua);
+  var isAndroid = /android/i.test(ua);
+  var inWebView = isAndroid && /;\s*wv\)/i.test(ua);
   var standalone = false;
   try {
     standalone =
@@ -81,6 +83,12 @@
       document.body.appendChild(ov);
     }
     var cardEl = ov.querySelector(".inst-card");
+    var intentUrl =
+      "intent://" +
+      window.location.host +
+      window.location.pathname +
+      window.location.search +
+      "#Intent;scheme=https;package=com.android.chrome;end";
     var steps =
       kind === "ios"
         ? '<h4>📲 تنزيل التطبيق على الشاشة الرئيسية</h4><p>على الآيفون والآيباد:</p>' +
@@ -89,6 +97,17 @@
           '<li>اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span>.</li>' +
           '<li>اضغط <b>«إضافة»</b> — وسيظهر التطبيق بأيقونته، ويعمل دون إنترنت.</li>' +
           "</ol>"
+        : kind === "android"
+        ? '<h4>📲 تنزيل التطبيق على الشاشة الرئيسية</h4><p>على أندرويد (متصفح كروم):</p>' +
+          "<ol>" +
+          '<li>اضغط زر المزيد <span class="ic">⋮</span> في شريط المتصفح.</li>' +
+          '<li>اختر <b>«تثبيت التطبيق»</b> — أو <b>«إضافة إلى الشاشة الرئيسية»</b> في الإصدارات الأقدم.</li>' +
+          '<li>اضغط <b>«تثبيت»</b> — وسيظهر التطبيق بأيقونته، ويعمل دون إنترنت.</li>' +
+          "</ol>" +
+          '<p class="inst-note">إن لم يظهر خيار التثبيت: تأكد أنك في <b>متصفح كروم</b> (أو متصفح سامسونج إنترنت) لا داخل تطبيق آخر، وحدِّث المتصفح و«خدمات Google Play» من متجر Play، ثم أعد فتح الرابط وانتظر قليلًا قبل المحاولة.</p>' +
+          (inWebView
+            ? '<p><a class="btn btn-solid btn-sm" href="' + intentUrl + '">افتح في متصفح كروم</a></p>'
+            : "")
         : '<h4>📲 تنزيل التطبيق</h4><p>افتح قائمة المتصفح <span class="ic">⋮</span> ثم اختر:</p>' +
           "<ol>" +
           '<li><b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>.</li>' +
@@ -153,7 +172,7 @@
         }
         return;
       }
-      showHelp(isIOS ? "ios" : "generic");
+      showHelp(isIOS ? "ios" : isAndroid ? "android" : "generic");
     });
   }
 

@@ -746,6 +746,7 @@ body.dark .install-app{box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .inst-card p{margin:0 0 8px;font-size:15px}
 .inst-card ol{margin:0 0 16px;padding-right:20px;font-size:15px;line-height:2}
 .inst-card .ic{font-size:17px}
+.inst-card .inst-note{font-size:13.5px;opacity:.8;line-height:1.9;margin:0 0 14px}
 body.dark .inst-card h4{color:#dff0e7}
 
 @media(max-width:620px){

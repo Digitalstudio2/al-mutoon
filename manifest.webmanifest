@@ -1,12 +1,14 @@
 {
   "name": "متون الجزرية لابن الجزري",
   "short_name": "الجزرية",
+  "id": "./",
   "description": "المقدمة الجزرية لابن الجزري — قراءة وسماع واختبار",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "index.html",
   "scope": "./",
   "display": "standalone",
+  "prefer_related_applications": false,
   "theme_color": "#0b3d2e",
   "background_color": "#fbf8f0",
   "icons": [
