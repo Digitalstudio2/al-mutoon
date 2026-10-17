@@ -413,19 +413,13 @@
       ui.dur.textContent = fmt(audio.duration);
       try { audio.playbackRate = state.rate; } catch (e) {}
       hideNotice();
-      if (pendingSeekFrac > 0 && audio.duration) {
-        var t0 = pendingSeekFrac * audio.duration;
-        if (pendingSeekBack > 0 && t0 > pendingSeekBack) t0 -= pendingSeekBack;
-        if (t0 < 0) t0 = 0;
-        try { audio.currentTime = t0; } catch (e) {}
-        pendingSeekFrac = 0;
-        pendingSeekBack = 0;
-      }
+      applyPendingSeek();
       scheduleStop();
     });
     audio.addEventListener("play", function () { hideNotice(); syncUI(); scheduleStop(); });
     audio.addEventListener("pause", function () { syncUI(); clearStopTimer(); });
     audio.addEventListener("seeking", clearStopTimer);
+    audio.addEventListener("durationchange", function () { applyPendingSeek(); });
     audio.addEventListener("seeked", function () { if (verseStop != null) scheduleStop(); });
     audio.addEventListener("ratechange", function () { if (verseStop != null) scheduleStop(); });
     audio.addEventListener("ended", function () {
@@ -489,6 +483,21 @@
   /* ---------- التشغيل ---------- */
   var pendingSeekFrac = 0;
   var pendingSeekBack = 0;
+
+  /* يطبّق القفزة المؤجّلة (بداية باب أو بيت) متى عُرفت مدة المقطع فعلًا */
+  function applyPendingSeek() {
+    if (!(pendingSeekFrac > 0) || !audio) return;
+    var d = audio.duration;
+    if (!d || !isFinite(d) || d <= 0) return;
+    var t0 = pendingSeekFrac * d;
+    if (pendingSeekBack > 0 && t0 > pendingSeekBack) t0 -= pendingSeekBack;
+    if (t0 < 0) t0 = 0;
+    try {
+      audio.currentTime = t0;
+      pendingSeekFrac = 0;
+      pendingSeekBack = 0;
+    } catch (e) {}
+  }
 
   /* جدول أزمنة مقيسة لمقطعٍ ما (أو null إن لم يتوفّر) */
   function timingLookup(map, t) {

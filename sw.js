@@ -1,5 +1,5 @@
 /* عامل الخدمة (Service Worker) — متاح دون اتصال «كاملًا»
-   الإصدار: 2026-10-17-ز (استماع بيتٍ واحد: إيقاف دقيق عند آخر كلمة من البيت دون تسرّب التالي)
+   الإصدار: 2026-10-17-ح (قفز صحيح للبيت المحدد: خدمة نطاق Range من النسخة المخزّنة + إيقاف دقيق عند آخر الكلمة)
    - يتخزّن الموقع كاملًا مسبقًا عند التثبيت: كل الصفحات + التنسيقات + السكربتات
      + الأيقونات + manifest + ملف المصدر PDF + خطوط جوجل (بعد استخراج ملفاتها).
    - الاستراتيجيات عند التشغيل:
@@ -168,12 +168,58 @@ async function downloadFullAudio(href) {
   }
 }
 
+/* نُبقي جسم آخر مقطع مخزّن في الذاكرة لتسريع تجزيء استجابات النطاق (206) */
+let audioBuf = { href: "", buf: null };
+
+/* يبني استجابة ٢٠٦ من نسخة مخزّنة كاملة عند طلب نطاق، كي يبقى القفز إلى البيت
+   المحدد يعمل على الأجهزة التي تُخدَم من التخزين (أصل مشكلة «يقرأ من البداية»).
+   يرجّع null إذا كانت النسخة غير مقروءة (opaque) أو الطلب غير صالح. */
+async function rangedFromCached(hit, href, rangeHeader) {
+  const m = /^bytes=(\d+)-(\d*)$/.exec(String(rangeHeader || "").trim());
+  if (!m) return null;
+  try {
+    if (audioBuf.href !== href || !audioBuf.buf) {
+      audioBuf = { href: href, buf: await hit.clone().arrayBuffer() };
+    }
+    const total = audioBuf.buf.byteLength;
+    let s = parseInt(m[1], 10);
+    let e = m[2] !== "" ? parseInt(m[2], 10) : total - 1;
+    if (s > e || s >= total) return null;
+    if (e >= total) e = total - 1;
+    const body = audioBuf.buf.slice(s, e + 1);
+    return new Response(body, {
+      status: 206,
+      statusText: "Partial Content",
+      headers: {
+        "Content-Type": hit.headers.get("Content-Type") || "audio/mpeg",
+        "Content-Range": "bytes " + s + "-" + e + "/" + total,
+        "Content-Length": String(body.byteLength),
+        "Accept-Ranges": "bytes",
+      },
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
 const audioHandler = {
   async handle({ request, url, event }) {
     if (request.method !== "GET") return undefined;
     const cache = await caches.open(AUDIO_CACHE);
     const hit = await cache.match(url.href, { ignoreVary: true });
-    if (hit) return hit;
+    const rangeHeader = request.headers.get("range");
+    if (hit) {
+      if (!rangeHeader) return hit;
+      /* طلب نطاق من نسخة مخزّنة: نبني ٢٠٦، وإلا نعتمد الشبكة كي لا يفقد
+         المشغّل قدرة القفز إلى موضع البيت المطلوب */
+      const ranged = await rangedFromCached(hit, url.href, rangeHeader);
+      if (ranged) return ranged;
+      try {
+        return await fetch(request);
+      } catch (e) {
+        return hit;
+      }
+    }
     event.waitUntil(downloadFullAudio(url.href).catch(() => {}));
     try {
       return await fetch(request);
