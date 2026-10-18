@@ -242,7 +242,7 @@
     hifzProgress();
   }
 
-  /* أزرار البيت: استماع لكل بيت · تم الحفظ */
+  /* أزرار البيت: «تم الحفظ» */
   function initVerseActions() {
     document.addEventListener("click", function (e) {
       if (!e.target || !e.target.closest) return;
@@ -252,12 +252,6 @@
         const n = parseInt(h.getAttribute("data-hifz"), 10);
         if (n > 0) hifzToggle(n);
         return;
-      }
-      const l = e.target.closest("[data-verse-listen]");
-      if (l) {
-        e.preventDefault();
-        const n = parseInt(l.getAttribute("data-verse-listen"), 10);
-        if (n > 0 && window.JazAudio && window.JazAudio.playVerse) window.JazAudio.playVerse(n);
       }
     });
 
@@ -315,7 +309,6 @@
             '<div class="bayt" data-n="' + v.n + '" data-bab="' + b.id + '" data-raw="' + escapeHtml(full) + '">' +
             '<span class="num">' + arNum(v.n) + "</span>" +
             '<span class="acts">' +
-              '<button class="vb vb-listen" type="button" data-verse-listen="' + v.n + '" title="استماع لهذا البيت" aria-label="استماع للبيت ' + arNum(v.n) + '">▶</button>' +
               '<button class="vb vb-hifz" type="button" data-hifz="' + v.n + '" aria-pressed="false" title="تم الحفظ" aria-label="تم الحفظ — البيت ' + arNum(v.n) + '">✓</button>' +
               '<button class="vb vb-copy copy-btn" type="button" title="نسخ البيت" aria-label="نسخ البيت ' + arNum(v.n) + '">⧉</button>' +
             "</span>" +

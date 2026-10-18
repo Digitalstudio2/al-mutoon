@@ -77,7 +77,9 @@
     /* ============================================================
      جدول الأزمنة المقيسة (نسبة من مدة المقطع الكلية):
      F[k] = موضع بداية الكلام في البيت رقم (أول بيت في المقطع + k).
-     مستخرَج آليًّا من التسجيلات نفسها بتحليل فترات الصمت (2026-10-17).
+     مستخرَج آليًّا من التسجيلات نفسها بتحليل فترات الصمت (2026-10-17)،
+     وصُحِّحت أبيات السنيد (المقدمة · المخارج · الاستعمال · الضاد والظاء)
+     بمحاذاة الكلام (ASR) 2026-10-18.
      F[0] = بداية أول بيت في المقطع، و F[الأخير] = نهايته.
      ============================================================ */
   var TIMINGS = {
@@ -102,15 +104,15 @@
       "18.mp3": [0.00292, 0.22384, 0.55535, 0.75978, 0.97618]
     },
     snayd: {
-      "ar_01_Jazari_Introduction_Sinead.mp3": [0.00043, 0.14295, 0.24398, 0.34653, 0.46913, 0.59492, 0.72396, 0.86721, 0.99616],
-      "ar_02_Jazari_Introduction_Sinead.mp3": [0.00022, 0.08955, 0.17052, 0.24282, 0.33197, 0.42254, 0.51473, 0.60393, 0.71293, 0.81562, 0.92481, 0.99677],
+      "ar_01_Jazari_Introduction_Sinead.mp3": [0.00043, 0.12372, 0.24398, 0.36900, 0.49640, 0.62448, 0.74418, 0.86721, 0.99616],
+      "ar_02_Jazari_Introduction_Sinead.mp3": [0.00022, 0.09362, 0.18599, 0.27156, 0.36058, 0.45392, 0.54505, 0.63348, 0.72707, 0.81562, 0.91008, 0.99677],
       "ar_03_Jazari_Introduction_Sinead.mp3": [0.00078, 0.13126, 0.26896, 0.40807, 0.55068, 0.66577, 0.80853, 0.99617],
       "ar_04_Jazari_Introduction_Sinead.mp3": [0.00106, 0.17286, 0.29523, 0.4542, 0.59157, 0.71115, 0.87789, 0.99799],
-      "ar_05_Jazari_Introduction_Sinead.mp3": [0.00048, 0.13302, 0.25077, 0.41185, 0.58442, 0.7193, 0.86377, 0.99851],
+      "ar_05_Jazari_Introduction_Sinead.mp3": [0.00048, 0.15745, 0.29724, 0.43518, 0.58442, 0.7193, 0.86377, 0.99851],
       "ar_06_Jazari_Introduction_Sinead.mp3": [0.00101, 0.32626, 0.71096, 0.98885],
       "ar_07_Jazari_Introduction_Sinead.mp3": [0.00083, 0.14575, 0.33553, 0.50892, 0.69364, 0.86029, 0.99849],
       "ar_08_Jazari_Introduction_Sinead.mp3": [0.00178, 0.46177, 0.9852],
-      "ar_09_Jazari_Introduction_Sinead.mp3": [0.0001, 0.10661, 0.22197, 0.32233, 0.42018, 0.50005, 0.60057, 0.7158, 0.81268, 0.90789, 0.99926],
+      "ar_09_Jazari_Introduction_Sinead.mp3": [0.0001, 0.10661, 0.20573, 0.30695, 0.40477, 0.50005, 0.60057, 0.70096, 0.79707, 0.89633, 0.99926],
       "ar_10_Jazari_Introduction_Sinead.mp3": [0.00181, 0.31117, 0.625, 0.99806],
       "ar_11_Jazari_Introduction_Sinead.mp3": [0.00074, 0.21691, 0.50559, 0.70407, 0.98979],
       "ar_12_Jazari_Introduction_Sinead.mp3": [0.00041, 0.2165, 0.492, 0.72162, 0.9985],
@@ -119,54 +121,6 @@
       "ar_15_Jazari_Introduction_Sinead.mp3": [0.00049, 0.14765, 0.29466, 0.43404, 0.58006, 0.72785, 0.84249, 0.99831],
       "ar_16_Jazari_Introduction_Sinead.mp3": [0.00048, 0.20533, 0.44154, 0.63411, 0.83491, 0.99915],
       "ar_17_Jazari_Introduction_Sinead.mp3": [0.00058, 0.26328, 0.5829, 0.78096, 0.99483]
-    }
-  };
-
-  /* ============================================================
-     جدول نهايات الأبيات: G[k] = لحظة انتهاء آخر كلام في البيت
-     رقم (أول بيت في المقطع + k) — أي بداية الوقفة قبل نهاية البيت.
-     يُستعمل مع F للإيقاف الدقيق عند آخر كلمة من البيت دون تسرّب
-     كلام البيت التالي. ترتيبه وطوله كجدول TIMINGS نفسه.
-     ============================================================ */
-  var TIMING_G = {
-    suwaid: {
-      "00.mp3": [0.00022, 0.01073, 0.02208, 0.03138, 0.04375, 0.05194, 0.05813, 0.06902, 0.08067, 0.08864, 0.0963, 0.10388, 0.11277, 0.1229, 0.13261, 0.14159, 0.15328, 0.16279, 0.17147, 0.17955, 0.18835, 0.19716, 0.20551, 0.21487, 0.22277, 0.23195, 0.24355, 0.25359, 0.26221, 0.27084, 0.27944, 0.2882, 0.29658, 0.30471, 0.31347, 0.32086, 0.3307, 0.34133, 0.35192, 0.36071, 0.36966, 0.37828, 0.38844, 0.39798, 0.40699, 0.41679, 0.42522, 0.43449, 0.44317, 0.45165, 0.4602, 0.46923, 0.47752, 0.48635, 0.49558, 0.50495, 0.51416, 0.52291, 0.53257, 0.54128, 0.5495, 0.55719, 0.56599, 0.57476, 0.58346, 0.59183, 0.60073, 0.60874, 0.61998, 0.6285, 0.63692, 0.64576, 0.65504, 0.66337, 0.67135, 0.67939, 0.69147, 0.70021, 0.70934, 0.72015, 0.727, 0.73887, 0.7483, 0.75738, 0.76594, 0.77544, 0.78422, 0.79444, 0.80399, 0.81389, 0.8245, 0.83346, 0.8421, 0.85075, 0.86153, 0.87117, 0.87985, 0.88893, 0.89776, 0.90592, 0.91696, 0.92782, 0.93903, 0.94826, 0.95689, 0.96564, 0.97342, 0.9825, 0.99017, 0.9991],
-      "02.mp3": [0.00437, 0.14956, 0.2482, 0.34511, 0.47857, 0.61974, 0.75505, 0.89035, 0.98922],
-      "03.mp3": [0.00193, 0.07714, 0.16448, 0.25235, 0.35535, 0.43753, 0.52755, 0.61767, 0.71316, 0.80597, 0.89534, 0.98696],
-      "04.mp3": [0.00331, 0.13213, 0.26956, 0.40815, 0.55799, 0.70039, 0.84278, 0.98452],
-      "05.mp3": [0.00101, 0.1316, 0.27281, 0.40913, 0.5576, 0.70033, 0.84593, 0.97938],
-      "06.mp3": [0.0035, 0.12816, 0.27196, 0.42043, 0.56606, 0.7067, 0.84751, 0.98499],
-      "07.mp3": [0.00972, 0.28711, 0.61834, 0.93312],
-      "08.mp3": [0.00229, 0.10614, 0.28083, 0.41236, 0.53427, 0.65934, 0.7682, 0.87664, 0.97933],
-      "09.mp3": [0.0033, 0.11331, 0.24469, 0.3699, 0.50774, 0.63223, 0.74985, 0.87563, 0.98521],
-      "10.mp3": [0.01049, 0.51218, 0.95443],
-      "11.mp3": [0.00148, 0.27989, 0.60901, 0.93147],
-      "12.mp3": [0.00509, 0.20483, 0.48254, 0.71957, 0.96819],
-      "13.mp3": [0.0051, 0.21044, 0.44967, 0.70088, 0.96948],
-      "14.mp3": [0.00547, 0.14233, 0.30343, 0.47294, 0.662, 0.82721, 0.9885],
-      "15.mp3": [0.00141, 0.05586, 0.11148, 0.175, 0.23242, 0.30047, 0.35766, 0.42891, 0.50117, 0.57813, 0.63961, 0.72203, 0.80273, 0.85898, 0.92523, 0.98852],
-      "16.mp3": [0.00409, 0.13409, 0.27994, 0.41847, 0.55937, 0.70762, 0.81509, 0.98245],
-      "17.mp3": [0.00418, 0.17816, 0.39164, 0.57793, 0.77724, 0.97724],
-      "18.mp3": [0.00292, 0.20124, 0.53621, 0.73958, 0.97618]
-    },
-    snayd: {
-      "ar_01_Jazari_Introduction_Sinead.mp3": [0.00043, 0.14014, 0.24005, 0.34342, 0.46861, 0.5944, 0.72137, 0.8654, 0.99616],
-      "ar_02_Jazari_Introduction_Sinead.mp3": [0.00022, 0.08914, 0.16782, 0.24055, 0.32948, 0.42086, 0.51227, 0.60129, 0.71262, 0.81307, 0.92232, 0.99677],
-      "ar_03_Jazari_Introduction_Sinead.mp3": [0.00078, 0.13087, 0.26482, 0.40378, 0.54805, 0.66168, 0.80478, 0.99617],
-      "ar_04_Jazari_Introduction_Sinead.mp3": [0.00106, 0.16948, 0.29465, 0.45227, 0.58926, 0.71072, 0.87345, 0.99799],
-      "ar_05_Jazari_Introduction_Sinead.mp3": [0.00048, 0.12825, 0.24619, 0.40841, 0.57998, 0.71477, 0.85986, 0.99851],
-      "ar_06_Jazari_Introduction_Sinead.mp3": [0.00101, 0.31584, 0.70077, 0.98885],
-      "ar_07_Jazari_Introduction_Sinead.mp3": [0.00083, 0.14509, 0.33209, 0.50842, 0.6928, 0.85596, 0.99849],
-      "ar_08_Jazari_Introduction_Sinead.mp3": [0.00178, 0.46015, 0.9852],
-      "ar_09_Jazari_Introduction_Sinead.mp3": [0.0001, 0.10296, 0.22083, 0.32089, 0.4185, 0.4965, 0.59663, 0.71406, 0.81104, 0.90752, 0.99926],
-      "ar_10_Jazari_Introduction_Sinead.mp3": [0.00181, 0.30681, 0.61968, 0.99806],
-      "ar_11_Jazari_Introduction_Sinead.mp3": [0.00074, 0.21577, 0.49666, 0.6994, 0.98979],
-      "ar_12_Jazari_Introduction_Sinead.mp3": [0.00041, 0.21414, 0.49086, 0.7208, 0.9985],
-      "ar_13_Jazari_Introduction_Sinead.mp3": [0.00017, 0.13928, 0.29941, 0.46542, 0.69295, 0.83261, 0.99535],
-      "ar_14_Jazari_Introduction_Sinead.mp3": [0.00016, 0.07337, 0.12552, 0.20411, 0.26904, 0.34836, 0.41325, 0.47746, 0.54879, 0.63295, 0.68705, 0.76609, 0.83367, 0.88849, 0.94324, 0.99921],
-      "ar_15_Jazari_Introduction_Sinead.mp3": [0.00049, 0.14438, 0.28931, 0.42874, 0.57427, 0.72291, 0.84209, 0.99831],
-      "ar_16_Jazari_Introduction_Sinead.mp3": [0.00048, 0.20437, 0.4379, 0.62924, 0.82956, 0.99915],
-      "ar_17_Jazari_Introduction_Sinead.mp3": [0.00058, 0.25513, 0.57474, 0.77626, 0.99483]
     }
   };
 
@@ -207,10 +161,6 @@
   var LS_KEY = "jazariyyah-audio";
   var state = { reciter: 0, index: 0, part: 0, rate: 1, loop: false, follow: false, mini: false };
   var curVerse = null;      /* البيت المقروء الآن (تقديرًا) */
-  var verseStop = null;     /* البيت المطلوب التوقّف عند نهايته (استماع لبيتٍ واحد) */
-  var verseStopFrac = 0;    /* نسبة نهاية ذلك البيت داخل المقطع (تُلتقط عند البدء) */
-  var repeatVerse = null;   /* آخر بيتٍ انتهت تلاوته كاملًا: زر ▶ يكرّر تلاوته */
-  var noticeVerse = null;   /* البيت المعروض في شريط «تم الحفظ» */
   var audio = null;
   var ui = {};
   var built = false;
@@ -354,9 +304,6 @@
     ui.play.addEventListener("click", toggle);
 
     ui.seek.addEventListener("input", function () {
-      verseStop = null; /* المستخدم يتحكّم بالموضع يدويًا */
-      repeatVerse = null;
-      clearStopTimer();
       if (audio.duration) {
         var t = (parseFloat(ui.seek.value) / 1000) * audio.duration;
         if (isFinite(t)) { audio.currentTime = t; ui.cur.textContent = fmt(t); followTick(); }
@@ -371,7 +318,6 @@
       if (state.index < 0 && !RECITERS[r].full) state.index = 0;
       state.part = 0;
       curVerse = null;
-      repeatVerse = null;
       saveState();
       load(!audio.paused);
     });
@@ -403,10 +349,6 @@
       if (audio.duration && isFinite(audio.duration)) {
         ui.seek.value = String(Math.round((audio.currentTime / audio.duration) * 1000));
       }
-      /* توقّف احتياطي عند نهاية البيت المطلوب (المؤقّت الدقيق هو الأساس) */
-      if (verseStop != null && audio.duration && isFinite(audio.duration) && audio.duration > 0) {
-        if (verseStopFrac > 0 && audio.currentTime >= verseStopFrac * audio.duration - 0.08) stopNow();
-      }
       followTick();
     });
     audio.addEventListener("loadedmetadata", function () {
@@ -414,17 +356,11 @@
       try { audio.playbackRate = state.rate; } catch (e) {}
       hideNotice();
       applyPendingSeek();
-      scheduleStop();
     });
-    audio.addEventListener("play", function () { hideNotice(); syncUI(); scheduleStop(); });
-    audio.addEventListener("pause", function () { syncUI(); clearStopTimer(); });
-    audio.addEventListener("seeking", clearStopTimer);
+    audio.addEventListener("play", function () { hideNotice(); syncUI(); });
+    audio.addEventListener("pause", function () { syncUI(); });
     audio.addEventListener("durationchange", function () { applyPendingSeek(); });
-    audio.addEventListener("seeked", function () { if (verseStop != null) scheduleStop(); });
-    audio.addEventListener("ratechange", function () { if (verseStop != null) scheduleStop(); });
     audio.addEventListener("ended", function () {
-      if (verseStop != null) { stopNow(); return; }
-      repeatVerse = null;
       if (state.loop) {
         try { audio.currentTime = 0; } catch (e) {}
         tryPlay();
@@ -454,22 +390,6 @@
       e.preventDefault();
       var i = parseInt(t.getAttribute("data-listen"), 10);
       playIndex(isNaN(i) ? 0 : i);
-    });
-
-    /* «البيت التالي» من شريط انتهاء البيت */
-    document.addEventListener("click", function (e) {
-      var t = e.target && e.target.closest ? e.target.closest("[data-pl-next-verse]") : null;
-      if (!t) return;
-      e.preventDefault();
-      var n = parseInt(t.getAttribute("data-pl-next-verse"), 10);
-      if (n > 0) playVerse(n + 1);
-    });
-
-    /* عند تعليم البيت محفوظًا نحدّث شريط الانتهاء */
-    document.addEventListener("jazhifz:change", function (ev) {
-      var d = (ev && ev.detail) || {};
-      if (d.reset) { hideNotice(); return; }
-      if (noticeVerse != null && d.verse === noticeVerse) verseEnded(noticeVerse);
     });
 
     /* إن مرّر المستخدم الصفحة بنفسه نتوقّف عن التنقّل التلقائي قليلًا */
@@ -508,9 +428,8 @@
     if (t.v[1] - t.v[0] + 1 !== F.length - 1) return null;
     return F;
   }
-  /* F = مواضع بدايات الأبيات، G = مواضع نهايات آخر كلام فيها */
+  /* F = مواضع بدايات الأبيات */
   function timingTable(t) { return timingLookup(TIMINGS, t); }
-  function timingEndTable(t) { return timingLookup(TIMING_G, t); }
 
   /* موضع بداية الباب داخل المقطع (لأن بعض المقاطع تجمع بابين) */
   function startFraction() {
@@ -532,17 +451,10 @@
     return f > 0 && f < 0.95 ? f : 0;
   }
 
-  function load(andPlay, fracOverride) {
+  function load(andPlay) {
     hideNotice();
-    clearStopTimer();
-    if (typeof fracOverride === "number") {
-      pendingSeekFrac = fracOverride; /* تشغيل بيتٍ واحد: نبدأ من موضعه */
-      pendingSeekBack = 0.22;         /* بيسيرًا في الوقفة التي قبل البيت */
-    } else {
-      verseStop = null;               /* تشغيل بابٍ كامل: لا توقّف عند بيت */
-      pendingSeekFrac = startFraction();
-      pendingSeekBack = 0;
-    }
+    pendingSeekFrac = startFraction();
+    pendingSeekBack = 0;
     audio.src = trackUrl();
     try { audio.playbackRate = state.rate; } catch (e) {}
     ui.seek.value = "0";
@@ -564,53 +476,17 @@
       });
     }
   }
-  /* ---------- الإيقاف الدقيق عند نهاية البيت المستمع إليه ---------- */
-  var stopTimer = null;     /* مؤقّت الإيقاف المحسوب من جدول نهايات الأبيات */
-  function clearStopTimer() {
-    if (stopTimer) { clearTimeout(stopTimer); stopTimer = null; }
-  }
-  /* يوقف التلاوة عند نهاية البيت الحالي ويعرض شريط «تم الحفظ» */
-  function stopNow() {
-    if (verseStop == null) return;
-    var vs = verseStop;
-    verseStop = null;
-    clearStopTimer();
-    try { audio.pause(); } catch (e) {}
-    syncUI();
-    verseEnded(vs);
-  }
-  /* يجدول الإيقاف عند (نهاية الكلام − ٠٫١ ث) بهامش صغير لتفادي تسرّب البيت التالي */
-  function scheduleStop() {
-    clearStopTimer();
-    if (verseStop == null || !audio) return;
-    var d = audio.duration;
-    if (!d || !isFinite(d) || d <= 0 || !(verseStopFrac > 0)) return;
-    var endT = verseStopFrac * d - 0.1;
-    var delay = (endT - audio.currentTime) / (audio.playbackRate || 1);
-    if (isFinite(delay) && delay > 0 && delay < 3600) {
-      stopTimer = setTimeout(stopNow, delay * 1000 + 40);
-    }
-  }
-
   function toggle() {
     if (!audio.src) { load(true); return; }
-    if (audio.paused) {
-      /* بعد انتهاء تلاوة بيتٍ: ▶ يكرّر تلاوة البيت نفسه */
-      if (repeatVerse != null && verseStop == null) {
-        var rv = repeatVerse;
-        repeatVerse = null;
-        playVerse(rv);
-        return;
-      }
-      tryPlay();
-    } else audio.pause();
+    if (audio.paused) tryPlay();
+    else audio.pause();
   }
-  function notice(text, hint, actions) {
-    ui.err.innerHTML = esc(text) + (actions || "");
+  function notice(text, hint) {
+    ui.err.textContent = text;
     ui.err.classList.toggle("hint", !!hint);
     ui.err.classList.add("show");
   }
-  function hideNotice() { noticeVerse = null; ui.err.classList.remove("show"); }
+  function hideNotice() { ui.err.classList.remove("show"); }
 
   function playIndex(i) {
     if (!hasMatn()) return;
@@ -620,7 +496,6 @@
     state.index = i;
     state.part = 0;
     curVerse = null;
-    repeatVerse = null;
     saveState();
     load(true);
     /* مع التتبّع: ننتقل في الصفحة إلى الباب المختار */
@@ -840,77 +715,6 @@
     return f > 0 && f < 0.98 ? f : 0;
   }
 
-  /* نسبة الموضع داخل المقطع التي ينتهي عندها كلام بيتٍ معيّن
-     (نهاية آخر كلمة فيه قبل الوقفة، من جدول G إن توفّر) */
-  function verseEndFraction(n) {
-    var t = trackOf();
-    if (!t || !t.v || n == null) return 0;
-    if (n < t.v[0] || n > t.v[1]) return 0;
-    var ix = n - t.v[0] + 1;
-    var G = timingEndTable(t);
-    if (G && ix >= 0 && ix < G.length) {
-      var gg = G[ix];
-      return gg > 0 && gg <= 1 ? gg : 1;
-    }
-    var F = timingTable(t);
-    if (F && ix >= 0 && ix < F.length) {
-      var ff = F[ix];
-      return ff > 0 && ff <= 1 ? ff : 1;
-    }
-    var span = t.v[1] - t.v[0] + 1;
-    if (span <= 0) return 0;
-    var f = (n - t.v[0] + 1) / span;
-    return f > 0 && f <= 1 ? f : 1;
-  }
-
-  function lastVerseNum() {
-    if (!hasMatn()) return 109;
-    var b = MATN[MATN.length - 1];
-    return b.verses[b.verses.length - 1].n;
-  }
-
-  /* ---------- استماع لبيتٍ واحد ---------- */
-  function playVerse(n) {
-    if (!hasMatn() || !(n > 0)) return;
-    var bi = VERSE2BAB[n];
-    if (typeof bi !== "number") return;
-    repeatVerse = null;
-    var list = RECITERS[state.reciter].tracks[bi] || [];
-    var p = -1;
-    for (var i = 0; i < list.length; i++) {
-      if (list[i].v && n >= list[i].v[0] && n <= list[i].v[1]) { p = i; break; }
-    }
-    if (p < 0) p = 0;
-    state.index = bi;
-    state.part = p;
-    curVerse = n;
-    verseStop = n;
-    verseStopFrac = verseEndFraction(n);
-    saveState();
-    load(true, fractionOfVerse(n));
-    paintVerse(n, state.follow);
-    /* مع التتبّع: ننتقل إلى البيت في الصفحة */
-    if (state.follow) {
-      var el = document.querySelector('.bayt[data-n="' + n + '"]');
-      if (el) ensureVisible(el, true);
-    }
-  }
-
-  /* نهاية تلاوة البيت: نعرض خيار «تم الحفظ» والبيت التالي */
-  function verseEnded(n) {
-    noticeVerse = n;
-    repeatVerse = n;
-    var marked = !!(window.JazHifz && window.JazHifz.has && window.JazHifz.has(n));
-    var hasNext = n < lastVerseNum() && typeof VERSE2BAB[n + 1] === "number";
-    var acts = "";
-    if (!marked) acts += '<button class="pl-act" type="button" data-hifz="' + n + '">✓ تم الحفظ</button>';
-    if (hasNext) acts += '<button class="pl-act" type="button" data-pl-next-verse="' + n + '">▸ البيت التالي</button>';
-    var msg = marked
-      ? "البيت " + arNum(n) + " محفوظ ✓"
-      : "انتهت تلاوة البيت " + arNum(n) + " — هل حفظته؟";
-    notice(msg, true, acts);
-  }
-
   /* ---------- التهيئة ---------- */
   function init() {
     if (!build()) return;
@@ -947,7 +751,6 @@
   window.JazAudio = {
     play: function (i) { playIndex(typeof i === "number" ? i : 0); },
     playAll: function () { playIndex(0); },
-    playVerse: playVerse,
     toggle: toggle,
     gotoMatn: gotoMatn,
     setFollow: setFollow,
@@ -959,7 +762,7 @@
     verse: function () { return curVerse; },
     estimated: function () { return estimatedVerse(); },
     bab: function () { return currentBabIndex(); },
-    state: function () { return { reciter: state.reciter, index: state.index, part: state.part, follow: state.follow, verse: curVerse, stop: verseStop, stopFrac: verseStopFrac }; },
+    state: function () { return { reciter: state.reciter, index: state.index, part: state.part, follow: state.follow, verse: curVerse }; },
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

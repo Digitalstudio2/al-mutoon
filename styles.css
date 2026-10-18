@@ -347,7 +347,7 @@ body.dark .matn-tip b{color:#8fe0b6}
 .bayt .text .h1,.bayt .text .h2{display:inline}
 .bayt .text .sep{color:var(--gold);padding:0 6px;font-size:.8em}
 
-/* أزرار البيت: استماع · تم الحفظ · نسخ */
+/* أزرار البيت: تم الحفظ · نسخ */
 .bayt .acts{
   position:absolute;left:10px;top:50%;transform:translateY(-50%);
   display:flex;flex-direction:column;gap:3px;z-index:3
@@ -358,7 +358,6 @@ body.dark .matn-tip b{color:#8fe0b6}
   font-family:inherit;font-size:12px;line-height:1;transition:.15s
 }
 .vb:hover{border-color:var(--gold);background:var(--green-3);color:var(--green-deep)}
-.vb-listen{font-size:11px}
 .vb-hifz,.vb-copy{opacity:0}
 .bayt:hover .vb-hifz,.bayt:hover .vb-copy,
 .bayt:focus-within .vb-hifz,.bayt:focus-within .vb-copy{opacity:1}
@@ -526,7 +525,6 @@ body.dark .page-hero{background:linear-gradient(135deg,#04110b,#081c14 55%,#0c33
   .bayt .num{left:46px;width:28px;height:28px;font-size:12px}
   .bayt .acts{left:8px;gap:3px}
   .vb{width:26px;height:26px;font-size:11.5px}
-  .vb-listen{font-size:10px}
   .hifz-info{font-size:11.5px;padding:6px 11px}
 }
 
