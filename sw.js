@@ -1,12 +1,16 @@
-/* عامل الخدمة (Service Worker) — متاح دون اتصال «كاملًا»
-   الإصدار: 2026-10-18-أ (بسّطنا المشغّل: استماع الأبواب فقط — أُزيلت أزرار ▶ لكل بيت، وصُحّحت مواضع بدايات الأبيات عند السنيد)
+﻿/* عامل الخدمة (Service Worker) — متاح دون اتصال «كاملًا»
+   الإصدار: 2026-10-19-أ (تلاوة أيمن سويد صارت ملفاتٍ محلية داخل الموقع بعد معالجتها،
+   ومعها زرُّ «بلا تكرار» لعادل السنيد)
    - يتخزّن الموقع كاملًا مسبقًا عند التثبيت: كل الصفحات + التنسيقات + السكربتات
      + الأيقونات + manifest + ملف المصدر PDF + خطوط جوجل (بعد استخراج ملفاتها).
+     أما ملفات الصوت (‏28 ميغابايت) فتُخدم بالتخزين أثناء أول استماع لا مسبقًا.
    - الاستراتيجيات عند التشغيل:
      • الصفحات (navigate): الشبكة أولًا NetworkFirst مع مهلة قصيرة ثم التخزين.
      • الأصول الثابتة (css/js/خطوط/صور/manifest): التخزين أولًا CacheFirst.
      • الصوت (mp3): بث فوري من الشبكة + تنزيل نسخة كاملة في الخلفية تُخزَّن،
        فتُخدم لاحقًا من التخزين ويُسمع دون اتصال (يدعم النطاقات Range).
+       الملفات المحلية للسويد تُقدَّم Range من نسخة مخزّنة، فيبقى القفز إلى
+       أي بيتٍ ممكنًا دون اتصال.
      • مسارات تسجيل الدخول وOAuth: مستثناة تمامًا (NetworkOnly).
    المكتبة: Workbox 7.1.0 (نسخة محلية داخل assets/vendor/workbox). */
 
@@ -19,10 +23,10 @@ importScripts(
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 
-const PAGES_CACHE = "pages-v1";
-const ASSETS_CACHE = "assets-v1";
-const SOURCES_CACHE = "sources-v1";
-const AUDIO_CACHE = "audio-v1";
+const PAGES_CACHE = "pages-v2";
+const ASSETS_CACHE = "assets-v2";
+const SOURCES_CACHE = "sources-v2";
+const AUDIO_CACHE = "audio-v2";
 
 /* رابط ملف أنماط الخطوط كما هو مطلوب من صفحات الموقع — يجب أن يطابق حرفيًا */
 const FONT_CSS =
@@ -60,6 +64,17 @@ async function putUrl(cacheName, url) {
 }
 
 /* التخزين المسبق الكامل عند التثبيت */
+self.addEventListener("activate", (event) => {
+  const keep = [PAGES_CACHE, ASSETS_CACHE, SOURCES_CACHE, AUDIO_CACHE];
+  event.waitUntil(
+    (async () => {
+      for (const name of await caches.keys()) {
+        if (keep.indexOf(name) === -1) await caches.delete(name);
+      }
+      await self.clients.claim();
+    })()
+  );
+});
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {

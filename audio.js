@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    متون الجزرية لابن الجزري — مشغّل التلاوة الصوتية
    التلاوتان: الشيخ أيمن رشدي سويد · الشيخ عادل السنيد
    مع التتبّع مع التلاوة (تعليم البيت المقروء والانتقال إليه)
@@ -20,9 +20,9 @@
       id: "suwaid",
       name: "الشيخ أيمن رشدي سويد",
       short: "أيمن سويد",
-      source: "archive.org",
+      source: "assets/audio/suwaid",
       srcUrl: "https://archive.org/details/sh-ayman-sowaid-matn-aljazareiiah",
-      base: "https://archive.org/download/sh-ayman-sowaid-matn-aljazareiiah/",
+      base: "assets/audio/suwaid/",
       full: sw(0, 1, 109), /* متن الجزرية كاملًا */
       tracks: [
         [sw(2, 1, 8)],                          /* المقدمة */
@@ -74,35 +74,38 @@
     },
   ];
 
-    /* ============================================================
-     جدول الأزمنة المقيسة (نسبة من مدة المقطع الكلية):
-     F[k] = موضع بداية الكلام في البيت رقم (أول بيت في المقطع + k).
-     مستخرَج آليًّا من التسجيلات نفسها بتحليل فترات الصمت (2026-10-17)،
-     وصُحِّحت أبيات السنيد (المقدمة · المخارج · الاستعمال · الضاد والظاء)
-     بمحاذاة الكلام (ASR) 2026-10-18.
-     F[0] = بداية أول بيت في المقطع، و F[الأخير] = نهايته.
+    /* ============================================================
+     جدول الأزمنة المقيسة (نسبة من مدة المقطع الكلية):
+     F[k] = موضع بداية الكلام في البيت رقم (أول بيت في المقطع + k).
+     مستخرَج آليًّا من التسجيلات نفسها بتحليل فترات الصمت (2026-10-17)،
+     وصُحِّحت أبيات السنيد (المقدمة · المخارج · الاستعمال · الضاد والظاء)
+     بمحاذاة الكلام (ASR) 2026-10-18.
+     وتلاوة أيمن سويد: التسجيل الجديد المرفوع (2026-10-19) — مواضع أبياته
+     محسوبةٌ بمحاذاة الصمت على المقطع كاملًا، ثم قُسِّم إلى ملفات الأبواب،
+     فكلُّ نسبةٍ محسوبةٌ داخل ملف بابه.
+     F[0] = بداية أول بيت في المقطع، و F[الأخير] = نهايته.
      ============================================================ */
   var TIMINGS = {
-    suwaid: {
-      "00.mp3": [0.00022, 0.01181, 0.02221, 0.03234, 0.04426, 0.05224, 0.05857, 0.06989, 0.08153, 0.08961, 0.09649, 0.10399, 0.11351, 0.12299, 0.13279, 0.14248, 0.15337, 0.16289, 0.17198, 0.18034, 0.18913, 0.19777, 0.20642, 0.2155, 0.22287, 0.23282, 0.24363, 0.25457, 0.26298, 0.27176, 0.28045, 0.28904, 0.29739, 0.3056, 0.31433, 0.32094, 0.33149, 0.34144, 0.35282, 0.36145, 0.37054, 0.379, 0.38853, 0.3981, 0.40709, 0.41733, 0.4272, 0.43521, 0.44398, 0.45254, 0.46092, 0.46978, 0.4782, 0.48731, 0.49725, 0.50582, 0.51493, 0.52387, 0.53355, 0.54177, 0.55026, 0.55728, 0.56719, 0.57548, 0.58428, 0.59253, 0.60137, 0.60891, 0.62063, 0.62925, 0.63769, 0.64705, 0.65582, 0.66401, 0.67199, 0.68064, 0.69239, 0.70106, 0.7103, 0.72031, 0.7276, 0.73896, 0.74903, 0.75802, 0.76659, 0.77562, 0.78439, 0.79529, 0.80439, 0.81403, 0.82541, 0.83422, 0.84296, 0.85122, 0.86164, 0.87126, 0.88003, 0.88967, 0.89843, 0.906, 0.91716, 0.92793, 0.9392, 0.94914, 0.95777, 0.96643, 0.9735, 0.9832, 0.99092, 0.9991],
-      "02.mp3": [0.00437, 0.15289, 0.26544, 0.35511, 0.48834, 0.62905, 0.76482, 0.90024, 0.98922],
-      "03.mp3": [0.00193, 0.08573, 0.17392, 0.26125, 0.35717, 0.44375, 0.53538, 0.62722, 0.72067, 0.8123, 0.91165, 0.98696],
-      "04.mp3": [0.00331, 0.14538, 0.28396, 0.42437, 0.57422, 0.71297, 0.85769, 0.98452],
-      "05.mp3": [0.00101, 0.14526, 0.2858, 0.42381, 0.57076, 0.71568, 0.85892, 0.97938],
-      "06.mp3": [0.0035, 0.14397, 0.28528, 0.43357, 0.58071, 0.72068, 0.85916, 0.98499],
-      "07.mp3": [0.00972, 0.3144, 0.63853, 0.93312],
-      "08.mp3": [0.00229, 0.11675, 0.28313, 0.4224, 0.54718, 0.67182, 0.7695, 0.88065, 0.97933],
-      "09.mp3": [0.0033, 0.12564, 0.25588, 0.38367, 0.52194, 0.63941, 0.7606, 0.88539, 0.98521],
-      "10.mp3": [0.01049, 0.52208, 0.95443],
-      "11.mp3": [0.00148, 0.30617, 0.63196, 0.93147],
-      "12.mp3": [0.00509, 0.20737, 0.50373, 0.74161, 0.96819],
-      "13.mp3": [0.0051, 0.21314, 0.45476, 0.70328, 0.96948],
-      "14.mp3": [0.00547, 0.15797, 0.32025, 0.49112, 0.6749, 0.84031, 0.9885],
-      "15.mp3": [0.00141, 0.05656, 0.11273, 0.1757, 0.23742, 0.30695, 0.35867, 0.43422, 0.50203, 0.57883, 0.64078, 0.72945, 0.80398, 0.86594, 0.93016, 0.98852],
-      "16.mp3": [0.00409, 0.14756, 0.29274, 0.43092, 0.58258, 0.72297, 0.81697, 0.98245],
-      "17.mp3": [0.00418, 0.19768, 0.41161, 0.60279, 0.79675, 0.97724],
-      "18.mp3": [0.00292, 0.22384, 0.55535, 0.75978, 0.97618]
-    },
+    suwaid: {
+      "00.mp3": [0.00129, 0.00968, 0.01796, 0.02645, 0.03538, 0.04387, 0.05215, 0.06075, 0.07022, 0.07860, 0.08753, 0.09624, 0.10548, 0.11914, 0.12806, 0.13742, 0.14667, 0.15602, 0.16570, 0.17505, 0.18430, 0.19312, 0.20269, 0.21226, 0.22140, 0.23065, 0.23989, 0.24882, 0.25774, 0.26699, 0.27613, 0.28527, 0.29419, 0.30344, 0.31280, 0.32204, 0.33183, 0.34086, 0.34989, 0.35882, 0.36817, 0.37720, 0.38688, 0.39656, 0.40559, 0.41495, 0.42398, 0.43333, 0.44269, 0.45194, 0.46183, 0.47194, 0.48161, 0.49129, 0.50151, 0.51086, 0.51989, 0.52903, 0.53785, 0.54667, 0.55624, 0.56484, 0.57419, 0.58366, 0.59441, 0.60430, 0.61344, 0.62269, 0.63258, 0.63742, 0.64613, 0.65473, 0.66398, 0.67237, 0.68129, 0.69065, 0.70075, 0.70989, 0.71882, 0.72849, 0.73720, 0.74688, 0.75602, 0.76538, 0.77398, 0.78269, 0.79183, 0.80118, 0.81043, 0.82366, 0.83312, 0.84237, 0.85097, 0.86075, 0.87000, 0.87903, 0.88785, 0.89731, 0.90613, 0.91065, 0.91957, 0.92849, 0.93839, 0.94720, 0.95624, 0.96570, 0.97462, 0.98409, 0.99237, 0.99935],
+      "02.mp3": [0.00702, 0.12869, 0.24876, 0.37188, 0.50138, 0.62450, 0.74457, 0.86929, 0.99960],
+      "03.mp3": [0.00461, 0.08453, 0.16970, 0.25277, 0.34089, 0.47116, 0.55623, 0.64550, 0.73372, 0.82289, 0.91521, 0.99976],
+      "04.mp3": [0.00746, 0.15002, 0.28595, 0.43344, 0.58094, 0.72180, 0.86436, 0.99931],
+      "05.mp3": [0.00761, 0.14810, 0.28843, 0.43395, 0.57774, 0.72153, 0.86186, 0.99977],
+      "06.mp3": [0.00747, 0.15198, 0.29463, 0.44577, 0.58519, 0.72460, 0.86246, 0.99934],
+      "07.mp3": [0.01704, 0.33502, 0.67590, 0.99973],
+      "08.mp3": [0.00642, 0.12615, 0.25026, 0.36999, 0.49396, 0.61807, 0.74072, 0.87186, 0.99950],
+      "09.mp3": [0.00647, 0.13580, 0.26526, 0.40194, 0.52699, 0.64775, 0.76999, 0.88795, 0.99944],
+      "10.mp3": [0.02663, 0.55322, 0.99982],
+      "11.mp3": [0.01634, 0.33216, 0.65204, 0.99880],
+      "12.mp3": [0.01267, 0.27156, 0.51083, 0.75297, 0.99920],
+      "13.mp3": [0.01539, 0.16938, 0.44649, 0.72011, 0.99901],
+      "14.mp3": [0.00882, 0.16176, 0.32437, 0.49499, 0.67911, 0.84572, 0.99969],
+      "15.mp3": [0.00341, 0.07153, 0.13288, 0.20107, 0.26545, 0.33139, 0.39197, 0.45332, 0.51771, 0.58357, 0.64873, 0.74193, 0.80856, 0.87372, 0.93430, 0.99979],
+      "16.mp3": [0.00822, 0.16541, 0.31887, 0.46875, 0.62951, 0.77939, 0.85620, 0.99956],
+      "17.mp3": [0.01048, 0.20365, 0.41803, 0.60882, 0.80458, 0.99897],
+      "18.mp3": [0.01391, 0.27042, 0.54273, 0.78083, 1.00000]
+    },
     snayd: {
       "ar_01_Jazari_Introduction_Sinead.mp3": [0.00043, 0.12372, 0.24398, 0.36900, 0.49640, 0.62448, 0.74418, 0.86721, 0.99616],
       "ar_02_Jazari_Introduction_Sinead.mp3": [0.00022, 0.09362, 0.18599, 0.27156, 0.36058, 0.45392, 0.54505, 0.63348, 0.72707, 0.81562, 0.91008, 0.99677],
@@ -159,7 +162,8 @@
 
   /* ---------- الحالة ---------- */
   var LS_KEY = "jazariyyah-audio";
-  var state = { reciter: 0, index: 0, part: 0, rate: 1, loop: false, follow: false, mini: false };
+  var state = { reciter: 0, index: 0, part: 0, rate: 1, loop: false, follow: false, mini: false, skipRepeat: false };
+  var skipLock = false;
   var curVerse = null;      /* البيت المقروء الآن (تقديرًا) */
   var audio = null;
   var ui = {};
@@ -171,6 +175,7 @@
       localStorage.setItem(LS_KEY, JSON.stringify({
         reciter: state.reciter, index: state.index, rate: state.rate,
         loop: state.loop, follow: state.follow, verse: curVerse,
+        skipRepeat: state.skipRepeat,
       }));
     } catch (e) {}
   }
@@ -182,6 +187,7 @@
       if (typeof s.rate === "number" && s.rate > 0) state.rate = s.rate;
       if (typeof s.loop === "boolean") state.loop = s.loop;
       if (typeof s.follow === "boolean") state.follow = s.follow;
+      if (typeof s.skipRepeat === "boolean") state.skipRepeat = s.skipRepeat;
       if (typeof s.verse === "number") curVerse = s.verse;
     } catch (e) {}
     if (hasMatn()) {
@@ -257,6 +263,7 @@
             '</select>' +
           '</div>' +
           '<button class="pl-btn pl-ico pl-loop" id="plLoop" type="button" aria-label="تكرار المقطع" title="تكرار المقطع">🔁</button>' +
+          '<button class="pl-btn pl-ico pl-skip" id="plSkip" type="button" aria-label="قراءة بلا تكرار (سنيد)" title="قراءة بلا تكرار (سنيد)">٣×</button>' +
           '<button class="pl-btn pl-ico pl-toggle" id="plMini" type="button" aria-label="تصغير المشغّل" title="تصغير / توسيع">⌄</button>' +
         '</div>' +
         '<div class="pl-err" id="plErr"></div>' +
@@ -279,6 +286,7 @@
     ui.rate    = document.getElementById("plRate");
     ui.loop    = document.getElementById("plLoop");
     ui.mini    = document.getElementById("plMini");
+    ui.skip    = document.getElementById("plSkip");
     ui.err     = document.getElementById("plErr");
     audio      = document.getElementById("plAudio");
 
@@ -338,6 +346,12 @@
       saveState(); syncUI();
     });
 
+    if (ui.skip) ui.skip.addEventListener("click", function () {
+      if (RECITERS[state.reciter].id !== "snayd") return;
+      state.skipRepeat = !state.skipRepeat;
+      saveState(); syncUI();
+    });
+
     ui.follow.addEventListener("click", function () { setFollow(!state.follow, true); });
     ui.goto.addEventListener("click", gotoMatn);
     ui.mini.addEventListener("click", function () { setMini(!state.mini); });
@@ -350,6 +364,7 @@
         ui.seek.value = String(Math.round((audio.currentTime / audio.duration) * 1000));
       }
       followTick();
+      trySkipRepeat();
     });
     audio.addEventListener("loadedmetadata", function () {
       ui.dur.textContent = fmt(audio.duration);
@@ -430,6 +445,74 @@
   }
   /* F = مواضع بدايات الأبيات */
   function timingTable(t) { return timingLookup(TIMINGS, t); }
+
+  /* ---------- «بلا تكرار» للسنيد: القفز فوق التكرارات ---------- */
+  /* القفزة تقع عند انتهاء القراءة الأولى للبيت (بداية الوقفة التي تليها مباشرة).
+     بنية التلاوة عند السنيد: يُقرأ البيت ثلاث مرات، وتُقسَّم القراءةُ الشطرَين
+     مع وقفةٍ بينهما — فالقفزة بعد الشطر الثاني؛ فإن لم تُقسَّم فالقراءةُ كاملة.
+     الجدول مُشتقٌّ من تحليل الصمت لمقاطع السنيد، ونِسَبُه محسوبةٌ من بدايات
+     الأبيات (F) في جدول TIMINGS. الأبياتُ غيرُ المُدرجة تُتْرَك كاملةً
+     (آخر بيتٍ في المقطع، وبيتان بنيتُهما غيرُ واضحة). */
+  var SNAYD_SKIP_EXACT = {
+    "ar_01_Jazari_Introduction_Sinead.mp3": { 1: 0.03932, 2: 0.16076, 3: 0.28305, 4: 0.40880, 5: 0.53671, 6: 0.66203, 7: 0.78303 },
+    "ar_02_Jazari_Introduction_Sinead.mp3": { 9: 0.03449, 10: 0.12149, 11: 0.21253, 12: 0.29984, 13: 0.39088, 14: 0.48285, 15: 0.57264, 16: 0.66213, 17: 0.75565, 18: 0.84483 },
+    "ar_03_Jazari_Introduction_Sinead.mp3": { 20: 0.05262, 21: 0.17297, 22: 0.31135, 23: 0.45314, 24: 0.59444, 25: 0.70699 },
+    "ar_04_Jazari_Introduction_Sinead.mp3": { 27: 0.05159, 28: 0.21939, 29: 0.33511, 31: 0.63646, 32: 0.75315 },
+    "ar_05_Jazari_Introduction_Sinead.mp3": { 34: 0.05678, 35: 0.20134, 36: 0.34066, 37: 0.48046, 38: 0.62598, 39: 0.76530 },
+    "ar_06_Jazari_Introduction_Sinead.mp3": { 41: 0.11532, 42: 0.42993 },
+    "ar_07_Jazari_Introduction_Sinead.mp3": { 44: 0.05781, 45: 0.22236, 46: 0.38745, 47: 0.57757, 48: 0.74434 },
+    "ar_08_Jazari_Introduction_Sinead.mp3": { 50: 0.18821 },
+    "ar_09_Jazari_Introduction_Sinead.mp3": { 52: 0.03676, 53: 0.13668, 54: 0.23727, 55: 0.33820, 56: 0.43478, 57: 0.53036, 58: 0.63162, 59: 0.72987, 60: 0.82678 },
+    "ar_10_Jazari_Introduction_Sinead.mp3": { 62: 0.14676, 63: 0.41475 },
+    "ar_11_Jazari_Introduction_Sinead.mp3": { 65: 0.09912, 66: 0.29572, 67: 0.57915 },
+    "ar_12_Jazari_Introduction_Sinead.mp3": { 69: 0.08963, 70: 0.29660, 71: 0.58831 },
+    "ar_13_Jazari_Introduction_Sinead.mp3": { 73: 0.05824, 74: 0.19247, 75: 0.35443, 77: 0.74936 },
+    "ar_14_Jazari_Introduction_Sinead.mp3": { 79: 0.02738, 80: 0.09412, 81: 0.14773, 82: 0.22579, 83: 0.29185, 84: 0.37013, 85: 0.43506, 86: 0.49886, 87: 0.57601, 88: 0.65542, 89: 0.70881, 90: 0.78980, 91: 0.85564, 92: 0.91062 },
+    "ar_15_Jazari_Introduction_Sinead.mp3": { 94: 0.05098, 95: 0.19155, 96: 0.33609, 97: 0.47814, 98: 0.62465, 99: 0.77018 },
+    "ar_16_Jazari_Introduction_Sinead.mp3": { 101: 0.07272, 102: 0.27167, 103: 0.50218, 104: 0.69633 },
+    "ar_17_Jazari_Introduction_Sinead.mp3": { 106: 0.09224, 107: 0.33600, 108: 0.65389 },
+  };
+  function firstEndFraction() {
+    if (!state.skipRepeat) return null;
+    if (RECITERS[state.reciter].id !== "snayd") return null;
+    var t = trackOf();
+    if (!t || !t.v || !audio) return null;
+    var d = audio.duration;
+    if (!d || !isFinite(d) || d <= 0) return null;
+    var v = estimatedVerse();
+    if (v === null) return null;
+    var tab = SNAYD_SKIP_EXACT[t.f];
+    if (!tab) return null;
+    var fe = tab[v];
+    if (typeof fe !== "number" || !isFinite(fe) || fe <= 0 || fe >= 0.999) return null;
+    return fe;
+  }
+  function trySkipRepeat() {
+    if (!state.skipRepeat) return;
+    if (RECITERS[state.reciter].id !== "snayd") return;
+    if (skipLock) return;
+    if (!audio || audio.paused) return;
+    var d = audio.duration;
+    if (!d || !isFinite(d) || d <= 0) return;
+    var fe = firstEndFraction();
+    if (fe === null) return;
+    var f = audio.currentTime / d;
+    if (audio.currentTime < fe * d - 0.15) return; /* لم نصل بعد إلى نهاية القراءة الأولى */
+    /* القفز إلى بداية البيت التالي */
+    var t = trackOf();
+    if (!t || !t.v) return;
+    var v = estimatedVerse();
+    if (v === null) return;
+    var nv = v + 1;
+    if (nv > t.v[1]) return; /* last verse: لا قفز (شغّل كاملًا) */
+    var nf = fractionOfVerse(nv);
+    if (!(nf > 0 && nf < 0.999)) return;
+    skipLock = true;
+    pendingSeekFrac = nf;
+    pendingSeekBack = 0;
+    applyPendingSeek();
+    setTimeout(function () { skipLock = false; }, 1200);
+  }
 
   /* موضع بداية الباب داخل المقطع (لأن بعض المقاطع تجمع بابين) */
   function startFraction() {
@@ -659,6 +742,12 @@
     ui.bab.value = String(isFull() ? -1 : state.index);
     ui.rate.value = String(state.rate);
     ui.loop.classList.toggle("on", state.loop);
+    if (ui.skip) {
+      ui.skip.style.display = (RECITERS[state.reciter].id === "snayd") ? "" : "none";
+      ui.skip.classList.toggle("on", state.skipRepeat && RECITERS[state.reciter].id === "snayd");
+      ui.skip.setAttribute("aria-pressed", (state.skipRepeat && RECITERS[state.reciter].id === "snayd") ? "true" : "false");
+      ui.skip.textContent = state.skipRepeat ? "١×" : "٣×";
+    }
     ui.follow.classList.toggle("on", state.follow);
     ui.follow.setAttribute("aria-pressed", state.follow ? "true" : "false");
   }
@@ -754,6 +843,7 @@
     toggle: toggle,
     gotoMatn: gotoMatn,
     setFollow: setFollow,
+    setSkipRepeat: function (on) { if (RECITERS[state.reciter].id !== "snayd") return; state.skipRepeat = !!on; saveState(); syncUI(); },
     reciters: function () { return RECITERS.slice(); },
     tracksOf: function (i) {
       var r = RECITERS[state.reciter];
@@ -762,7 +852,7 @@
     verse: function () { return curVerse; },
     estimated: function () { return estimatedVerse(); },
     bab: function () { return currentBabIndex(); },
-    state: function () { return { reciter: state.reciter, index: state.index, part: state.part, follow: state.follow, verse: curVerse }; },
+    state: function () { return { reciter: state.reciter, index: state.index, part: state.part, follow: state.follow, verse: curVerse, skipRepeat: state.skipRepeat }; },
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
