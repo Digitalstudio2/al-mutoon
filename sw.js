@@ -1,6 +1,6 @@
 ﻿/* عامل الخدمة (Service Worker) — متاح دون اتصال «كاملًا»
-   الإصدار: 2026-10-19-أ (تلاوة أيمن سويد صارت ملفاتٍ محلية داخل الموقع بعد معالجتها،
-   ومعها زرُّ «بلا تكرار» لعادل السنيد)
+   الإصدار: 2026-10-19-ب (تصحيح مواضع أبيات سويد لتقع على بداية الشطر الأول من كل بيت،
+   ومعها تلاوة أيمن سويد محليًّا وزرُّ «بلا تكرار» لعادل السنيد)
    - يتخزّن الموقع كاملًا مسبقًا عند التثبيت: كل الصفحات + التنسيقات + السكربتات
      + الأيقونات + manifest + ملف المصدر PDF + خطوط جوجل (بعد استخراج ملفاتها).
      أما ملفات الصوت (‏28 ميغابايت) فتُخدم بالتخزين أثناء أول استماع لا مسبقًا.
@@ -23,10 +23,10 @@ importScripts(
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 
-const PAGES_CACHE = "pages-v6";
-const ASSETS_CACHE = "assets-v6";
-const SOURCES_CACHE = "sources-v6";
-const AUDIO_CACHE = "audio-v6";
+const PAGES_CACHE = "pages-v7";
+const ASSETS_CACHE = "assets-v7";
+const SOURCES_CACHE = "sources-v7";
+const AUDIO_CACHE = "audio-v7";
 
 /* رابط ملف أنماط الخطوط كما هو مطلوب من صفحات الموقع — يجب أن يطابق حرفيًا */
 const FONT_CSS =
