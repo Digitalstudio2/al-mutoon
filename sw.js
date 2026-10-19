@@ -23,10 +23,10 @@ importScripts(
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 
-const PAGES_CACHE = "pages-v2";
-const ASSETS_CACHE = "assets-v2";
-const SOURCES_CACHE = "sources-v2";
-const AUDIO_CACHE = "audio-v2";
+const PAGES_CACHE = "pages-v3";
+const ASSETS_CACHE = "assets-v3";
+const SOURCES_CACHE = "sources-v3";
+const AUDIO_CACHE = "audio-v3";
 
 /* رابط ملف أنماط الخطوط كما هو مطلوب من صفحات الموقع — يجب أن يطابق حرفيًا */
 const FONT_CSS =
