@@ -596,6 +596,7 @@
       var el = document.querySelector('.bayt[data-n="' + firstVerse(state.index) + '"]') ||
                document.getElementById(babId(state.index));
       if (el) ensureVisible(el, true);
+      followPauseUntil = 0;
     }
   }
   function step(d) {

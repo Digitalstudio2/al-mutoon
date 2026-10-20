@@ -443,11 +443,21 @@
     );
     secs.forEach((s) => obs.observe(s));
     links.forEach((l) =>
-      l.addEventListener("click", () => {
+      l.addEventListener("click", (e) => {
+        e.preventDefault();
         links.forEach((x) => x.classList.remove("active"));
         l.classList.add("active");
         document.getElementById("nav") && document.getElementById("nav").classList.remove("open");
-        try { if (window.JazAudio && typeof window.JazAudio.pauseTracking === "function") window.JazAudio.pauseTracking(4000); } catch (err) {}
+        const id = l.getAttribute("data-target");
+        const sec = id ? document.getElementById(id) : null;
+        if (sec) {
+          const header = document.querySelector(".header");
+          const offset = (header ? header.offsetHeight : 0) + 16;
+          const top = sec.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        }
+        try { if (window.JazAudio && typeof window.JazAudio.pauseTracking === "function") window.JazAudio.pauseTracking(600000); } catch (err) {}
+        if (id) { try { history.replaceState(null, "", "#" + id); } catch (err) {} }
       })
     );
   }
