@@ -447,6 +447,7 @@
         links.forEach((x) => x.classList.remove("active"));
         l.classList.add("active");
         document.getElementById("nav") && document.getElementById("nav").classList.remove("open");
+        try { if (window.JazAudio && typeof window.JazAudio.pauseTracking === "function") window.JazAudio.pauseTracking(4000); } catch (err) {}
       })
     );
   }
