@@ -305,7 +305,17 @@ body.dark .header-inner .tool-btn{background:#0f1814;border-color:#233029}
 body.dark .matn-tip{color:#b3a06f!important;background:#131f19}
 body.dark .matn-tip b{color:#8fe0b6}
 
-.bab-sec{margin-bottom:38px;scroll-margin-top:90px}
+.bab-sec{margin-bottom:38px;scroll-margin-top:130px}
+/* إبراز عنوان الباب عند القدوم من الفهرس */
+.bab-sec.toc-jump h3{
+  background:linear-gradient(180deg,var(--green-3),rgba(255,255,255,.0));
+  border-bottom:1px solid var(--gold);
+  border-bottom-width:1px;
+  box-shadow:0 0 0 8px var(--green-3);
+  border-radius:0 0 16px 16px;
+  transition:background .6s ease,box-shadow .6s ease
+}
+.bab-sec.toc-jump h3 .bnum{box-shadow:0 3px 10px rgba(9,40,30,.35)}
 .bab-sec h3{
   font-size:23px;color:var(--green-deep);margin:0 0 4px;padding:0 0 10px;
   border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap
@@ -440,7 +450,11 @@ body.dark .matn-intro{border-bottom-color:#2b3f34}
 body.dark .matn-intro .bsm{color:var(--gold-2)}
 body.dark .matn-intro h2{color:#f0f6f2}
 body.dark .matn-intro p{color:#a6bab0}
-body.dark .bab-sec h3{color:#f0f6f2}
+body.dark .bab-sec,body.dark .bab-sec.playing h3{color:#f0f6f2}
+body.dark .bab-sec.toc-jump h3{
+  background:linear-gradient(180deg,#16241e,rgba(16,26,21,0));
+  box-shadow:0 0 0 8px #16241e
+}
 body.dark .bab-sec h3 .bnum{background:#125c45;color:#f4ecd8}
 body.dark .bab-sec .bdesc{color:#a6bab0}
 body.dark .bab-sec.playing h3::after{color:var(--gold)}

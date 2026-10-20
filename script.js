@@ -452,9 +452,15 @@
         const sec = id ? document.getElementById(id) : null;
         if (sec) {
           const header = document.querySelector(".header");
-          const offset = (header ? header.offsetHeight : 0) + 16;
-          const top = sec.getBoundingClientRect().top + window.scrollY - offset;
+          const h3 = sec.querySelector("h3");
+          const anchor = h3 || sec;
+          const offset = (header ? header.offsetHeight : 0) + 52;
+          const top = anchor.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+          sec.classList.remove("toc-jump");
+          void sec.offsetWidth; /* إعادة تشغيل إبراز العنوان */
+          sec.classList.add("toc-jump");
+          setTimeout(() => sec.classList.remove("toc-jump"), 3200);
         }
         try { if (window.JazAudio && typeof window.JazAudio.pauseTracking === "function") window.JazAudio.pauseTracking(600000); } catch (err) {}
         if (id) { try { history.replaceState(null, "", "#" + id); } catch (err) {} }
