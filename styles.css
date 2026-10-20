@@ -306,16 +306,18 @@ body.dark .matn-tip{color:#b3a06f!important;background:#131f19}
 body.dark .matn-tip b{color:#8fe0b6}
 
 .bab-sec{margin-bottom:38px;scroll-margin-top:130px}
-/* إبراز عنوان الباب عند القدوم من الفهرس */
-.bab-sec.toc-jump h3{
-  background:linear-gradient(180deg,var(--green-3),rgba(255,255,255,.0));
-  border-bottom:1px solid var(--gold);
-  border-bottom-width:1px;
-  box-shadow:0 0 0 8px var(--green-3);
-  border-radius:0 0 16px 16px;
-  transition:background .6s ease,box-shadow .6s ease
+/* إبراز عنوان الباب عند القدوم من الفهرس — وميض ذهبي/أخضر نابض */
+@keyframes tocflash{
+  0%{background:rgba(18,92,69,.26);box-shadow:0 0 0 3px var(--gold),0 0 0 12px rgba(18,92,69,.16)}
+  40%{background:rgba(18,92,69,.10);box-shadow:0 0 0 1px rgba(198,161,91,.55),0 0 0 6px rgba(18,92,69,.08)}
+  70%{background:rgba(18,92,69,.20);box-shadow:0 0 0 2px var(--gold),0 0 0 10px rgba(18,92,69,.13)}
+  100%{background:rgba(18,92,69,0);box-shadow:0 0 0 0 rgba(198,161,91,0),0 0 0 0 rgba(18,92,69,0)}
 }
-.bab-sec.toc-jump h3 .bnum{box-shadow:0 3px 10px rgba(9,40,30,.35)}
+.bab-sec.toc-jump h3{
+  animation:tocflash 1.9s ease .1s 1 both;
+  border-radius:0 0 16px 16px
+}
+.bab-sec.toc-jump h3 .bnum{box-shadow:0 3px 10px rgba(157,116,32,.5)}
 .bab-sec h3{
   font-size:23px;color:var(--green-deep);margin:0 0 4px;padding:0 0 10px;
   border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap
@@ -451,10 +453,13 @@ body.dark .matn-intro .bsm{color:var(--gold-2)}
 body.dark .matn-intro h2{color:#f0f6f2}
 body.dark .matn-intro p{color:#a6bab0}
 body.dark .bab-sec,body.dark .bab-sec.playing h3{color:#f0f6f2}
-body.dark .bab-sec.toc-jump h3{
-  background:linear-gradient(180deg,#16241e,rgba(16,26,21,0));
-  box-shadow:0 0 0 8px #16241e
+@keyframes tocflashDark{
+  0%{background:rgba(198,161,91,.24);box-shadow:0 0 0 3px var(--gold),0 0 0 12px rgba(198,161,91,.16)}
+  40%{background:rgba(198,161,91,.10);box-shadow:0 0 0 1px rgba(198,161,91,.45),0 0 0 6px rgba(198,161,91,.08)}
+  70%{background:rgba(198,161,91,.18);box-shadow:0 0 0 2px var(--gold),0 0 0 10px rgba(198,161,91,.12)}
+  100%{background:rgba(198,161,91,0);box-shadow:0 0 0 0 rgba(198,161,91,0),0 0 0 0 rgba(198,161,91,0)}
 }
+body.dark .bab-sec.toc-jump h3{animation-name:tocflashDark}
 body.dark .bab-sec h3 .bnum{background:#125c45;color:#f4ecd8}
 body.dark .bab-sec .bdesc{color:#a6bab0}
 body.dark .bab-sec.playing h3::after{color:var(--gold)}
