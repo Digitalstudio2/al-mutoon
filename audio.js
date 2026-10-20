@@ -598,6 +598,8 @@
       if (el) ensureVisible(el, true);
       followPauseUntil = 0;
     }
+    /* إزالة إبراز الفهرس الثابت — يأخذ مؤشّر «يُتلى الآن» مكانه عند التشغيل */
+    each(document.querySelectorAll(".bab-sec.toc-jump"), function (je) { je.classList.remove("toc-jump"); });
   }
   function step(d) {
     if (isFull()) { playIndex(d > 0 ? 0 : lastBab()); return; }

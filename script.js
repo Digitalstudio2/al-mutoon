@@ -332,6 +332,10 @@
 
     initCopy();
     initScrollSpy();
+    /* إبراز ثابت لباب الوصلة عند الفتح بها (matn.html#id) */
+    const hid = decodeURIComponent(location.hash || "").slice(1);
+    const hsec = hid ? document.getElementById(hid) : null;
+    if (hsec && hsec.classList.contains("bab-sec")) hsec.classList.add("toc-jump");
     restoreFont();
   }
 
@@ -460,8 +464,10 @@
           sec.classList.remove("toc-jump");
           void sec.offsetWidth; /* إعادة تشغيل إبراز العنوان */
           sec.classList.add("toc-jump");
-          setTimeout(() => sec.classList.remove("toc-jump"), 3200);
         }
+        document.querySelectorAll(".bab-sec.toc-jump").forEach((s) => {
+          if (s !== sec) s.classList.remove("toc-jump");
+        });
         try { if (window.JazAudio && typeof window.JazAudio.pauseTracking === "function") window.JazAudio.pauseTracking(600000); } catch (err) {}
         if (id) { try { history.replaceState(null, "", "#" + id); } catch (err) {} }
       })
