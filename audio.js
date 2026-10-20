@@ -172,7 +172,7 @@
 
   /* ---------- الحالة ---------- */
   var LS_KEY = "jazariyyah-audio";
-  var state = { reciter: 0, index: 0, part: 0, rate: 1, loop: false, follow: false, mini: false, skipRepeat: false };
+  var state = { reciter: 0, index: 0, part: 0, rate: 1, loop: false, mini: false, skipRepeat: false };
   var skipLock = false;
   var curVerse = null;      /* البيت المقروء الآن (تقديرًا) */
   var audio = null;
@@ -184,7 +184,7 @@
     try {
       localStorage.setItem(LS_KEY, JSON.stringify({
         reciter: state.reciter, index: state.index, rate: state.rate,
-        loop: state.loop, follow: state.follow, verse: curVerse,
+        loop: state.loop, verse: curVerse,
         skipRepeat: state.skipRepeat,
       }));
     } catch (e) {}
@@ -196,7 +196,6 @@
       if (typeof s.index === "number" && s.index >= -1 && s.index <= lastBab()) state.index = s.index;
       if (typeof s.rate === "number" && s.rate > 0) state.rate = s.rate;
       if (typeof s.loop === "boolean") state.loop = s.loop;
-      if (typeof s.follow === "boolean") state.follow = s.follow;
       if (typeof s.skipRepeat === "boolean") state.skipRepeat = s.skipRepeat;
       if (typeof s.verse === "number") curVerse = s.verse;
     } catch (e) {}
@@ -258,7 +257,6 @@
             '<button class="pl-btn pl-ico" id="plPrev" type="button" aria-label="الباب السابق" title="الباب السابق">⏮</button>' +
             '<button class="pl-btn pl-ico" id="plNext" type="button" aria-label="الباب التالي" title="الباب التالي">⏭</button>' +
           '</div>' +
-          '<button class="pl-btn pl-ico pl-follow" id="plFollow" type="button" aria-label="التتبّع مع التلاوة" title="التتبّع مع التلاوة: تنقّل الصفحة تلقائيًا مع البيت المقروء">🎯</button>' +
           '<button class="pl-btn pl-ico pl-goto" id="plGoto" type="button" aria-label="الرجوع إلى المتن" title="الرجوع إلى موضع التلاوة في المتن">📖</button>' +
           '<div class="pl-set">' +
             '<select class="pl-sel" id="plReciter" aria-label="القارئ" title="القارئ"></select>' +
@@ -284,7 +282,6 @@
     ui.play    = document.getElementById("plPlay");
     ui.prev    = document.getElementById("plPrev");
     ui.next    = document.getElementById("plNext");
-    ui.follow  = document.getElementById("plFollow");
     ui.goto    = document.getElementById("plGoto");
     ui.title   = document.getElementById("plTitle");
     ui.sub     = document.getElementById("plSub");
@@ -362,7 +359,6 @@
       saveState(); syncUI();
     });
 
-    ui.follow.addEventListener("click", function () { setFollow(!state.follow, true); });
     ui.goto.addEventListener("click", gotoMatn);
     ui.mini.addEventListener("click", function () { setMini(!state.mini); });
     ui.prev.addEventListener("click", function () { step(-1); });
@@ -418,7 +414,7 @@
     });
 
     /* إن مرّر المستخدم الصفحة بنفسه نتوقّف عن التنقّل التلقائي قليلًا */
-    var manual = function () { if (state.follow) followPauseUntil = Date.now() + 10000; };
+    var manual = function () { followPauseUntil = Date.now() + 10000; };
     window.addEventListener("wheel", manual, { passive: true });
     window.addEventListener("touchmove", manual, { passive: true });
 
@@ -596,7 +592,7 @@
     saveState();
     load(true);
     /* مع التتبّع: ننتقل في الصفحة إلى الباب المختار */
-    if (state.follow && !isFull()) {
+    if (!isFull()) {
       var el = document.querySelector('.bayt[data-n="' + firstVerse(state.index) + '"]') ||
                document.getElementById(babId(state.index));
       if (el) ensureVisible(el, true);
@@ -654,7 +650,7 @@
     if (n === null || n === curVerse) return;
     curVerse = n;
     syncIndexToVerse(n);
-    paintVerse(n, state.follow);
+    paintVerse(n, true);
     saveState();
   }
 
@@ -695,17 +691,6 @@
     catch (e) { window.scrollTo(0, y); }
   }
 
-  function setFollow(on, jump) {
-    state.follow = !!on;
-    saveState();
-    syncUI();
-    if (state.follow && jump) {
-      var el = curVerse != null ? document.querySelector('.bayt[data-n="' + curVerse + '"]') : null;
-      if (!el && !isFull()) el = document.getElementById(babId(state.index));
-      if (el) ensureVisible(el, true);
-    }
-  }
-
   function gotoMatn() {
     var here = !!document.querySelector(".matn-paper");
     var n = curVerse != null ? curVerse : (isFull() ? null : firstVerse(state.index));
@@ -715,7 +700,6 @@
     if (here) {
       var el = n != null ? document.querySelector('.bayt[data-n="' + n + '"]') : null;
       if (!el && id) el = document.getElementById(id);
-      setFollow(true);
       if (el) ensureVisible(el, true);
       return;
     }
@@ -762,8 +746,6 @@
       ui.skip.setAttribute("aria-pressed", (state.skipRepeat && RECITERS[state.reciter].id === "snayd") ? "true" : "false");
       ui.skip.textContent = state.skipRepeat ? "١×" : "٣×";
     }
-    ui.follow.classList.toggle("on", state.follow);
-    ui.follow.setAttribute("aria-pressed", state.follow ? "true" : "false");
   }
 
   /* ---------- تصغير/توسيع + ضبط فراغ الصفحة ---------- */
@@ -856,7 +838,6 @@
     playAll: function () { playIndex(0); },
     toggle: toggle,
     gotoMatn: gotoMatn,
-    setFollow: setFollow,
     setSkipRepeat: function (on) { if (RECITERS[state.reciter].id !== "snayd") return; state.skipRepeat = !!on; saveState(); syncUI(); },
     reciters: function () { return RECITERS.slice(); },
     tracksOf: function (i) {
@@ -866,7 +847,7 @@
     verse: function () { return curVerse; },
     estimated: function () { return estimatedVerse(); },
     bab: function () { return currentBabIndex(); },
-    state: function () { return { reciter: state.reciter, index: state.index, part: state.part, follow: state.follow, verse: curVerse, skipRepeat: state.skipRepeat }; },
+    state: function () { return { reciter: state.reciter, index: state.index, part: state.part, verse: curVerse, skipRepeat: state.skipRepeat }; },
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
