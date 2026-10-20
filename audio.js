@@ -591,13 +591,11 @@
     curVerse = null;
     saveState();
     load(true);
-    /* مع التتبّع: ننتقل في الصفحة إلى اسم الباب (وليس أول بيت) */
+    /* مع التتبّع: ننتقل في الصفحة إلى الباب المختار */
     if (!isFull()) {
-      var el = document.getElementById(babId(state.index)) ||
-               document.querySelector('.bayt[data-n="' + firstVerse(state.index) + '"]');
+      var el = document.querySelector('.bayt[data-n="' + firstVerse(state.index) + '"]') ||
+               document.getElementById(babId(state.index));
       if (el) ensureVisible(el, true);
-      /* أبقِ عنوان الباب ظاهرًا قليلًا قبل أن يبدأ التتبّع الآلي */
-      followPauseUntil = Date.now() + 4000;
     }
   }
   function step(d) {
