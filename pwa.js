@@ -174,6 +174,8 @@
   function setupBanner() {
     if (standalone) {
       setAttr("data-install", "standalone");
+      var sb = document.getElementById("installAppBtn");
+      if (sb) sb.hidden = true;
       return;
     }
 
@@ -188,9 +190,32 @@
       deferredPrompt = null;
       mark("installed");
       setAttr("data-install", "done");
+      var sb = document.getElementById("installAppBtn");
+      if (sb) sb.hidden = true;
       var ov = document.getElementById("instBanner");
       if (ov) closeBanner(ov);
     });
+
+    /* زر 📲 أعلى الصفحة: يثبّت مباشرة أو يستدعي اللافتة السفلية للإرشاد */
+    var topBtn = document.getElementById("installAppBtn");
+    if (topBtn) {
+      topBtn.addEventListener("click", function () {
+        if (deferredPrompt) {
+          var p = deferredPrompt;
+          deferredPrompt = null;
+          try { p.prompt(); } catch (e) {}
+          try {
+            if (p.userChoice && p.userChoice.then) {
+              p.userChoice.then(function () { topBtn.hidden = true; })["catch"](function () { topBtn.hidden = true; });
+            }
+          } catch (e) {
+            topBtn.hidden = true;
+          }
+          return;
+        }
+        showBanner(isIOS ? "ios" : isAndroid ? "android" : "generic");
+      });
+    }
 
     /* تظهر فور فتح الرابط — دون أي تأخير */
     var kind = isIOS ? "ios" : deferredPrompt ? "installable" : isAndroid ? "android" : "generic";
