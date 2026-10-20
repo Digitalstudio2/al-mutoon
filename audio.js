@@ -12,8 +12,8 @@
      المصدران متاحان للاستماع المباشر (بثّ) دون تحميل.
      لكل مقطع: f = اسم الملف، و v = [أول بيت، آخر بيت] يُتلى فيه.
      وبمدى الأبيات هذا نستطيع تقدير البيت المقروء لحظةً بلحظة. */
-  function sw(n, a, b) { return { f: pad2(n) + ".mp3", v: [a, b] }; }
-  function sn(n, a, b) { return { f: "ar_" + pad2(n) + "_Jazari_Introduction_Sinead.mp3", v: [a, b] }; }
+  function sw(n, a, b, base) { return { f: pad2(n) + ".mp3", v: [a, b], base: (base == null ? a : base) }; }
+  function sn(n, a, b, base) { return { f: "ar_" + pad2(n) + "_Jazari_Introduction_Sinead.mp3", v: [a, b], base: (base == null ? a : base) }; }
 
   var RECITERS = [
     {
@@ -32,10 +32,12 @@
         [sw(6, 34, 40)],                        /* الترقيق (مع استعمال الحروف) */
         [sw(6, 34, 40)],                        /* استعمال الحروف */
         [sw(7, 41, 43)],                        /* الراءات */
-        [sw(8, 44, 51)],                        /* اللامات */
+        [sw(8, 44, 49, 44)],                        /* اللامات */
+[sw(8, 50, 51, 44)],                        /* الإظهار والإدغام */
         [sw(9, 52, 59)],                        /* الضاد والظاء */
         [sw(10, 60, 61)],                       /* التحذيرات */
-        [sw(11, 62, 64), sw(12, 65, 68)],       /* أحكام النون والميم والتنوين */
+        [sw(11, 62, 64)],                          /* النون والميم المشددتين والميم الساكنة */
+[sw(12, 65, 68)],                          /* أحكام النون الساكنة والتنوين */
         [sw(13, 69, 72)],                       /* المدات */
         [sw(14, 73, 78)],                       /* معرفة الوقوف */
         [sw(15, 79, 93)],                       /* المقطوع والموصول */
@@ -60,10 +62,12 @@
         [sn(5, 34, 40)],                        /* باب التفخيم والترقيق */
         [sn(5, 34, 40)],                        /* باب استعمال الحروف */
         [sn(6, 41, 43)],                        /* باب الراءات */
-        [sn(7, 44, 49), sn(8, 50, 51)],         /* اللامات + الإدغام والإظهار */
+        [sn(7, 44, 49)],                           /* اللامات */
+[sn(8, 50, 51)],                           /* الإظهار والإدغام */
         [sn(9, 52, 61)],                        /* الضاد والظاء */
         [sn(9, 52, 61)],                        /* التحذيرات */
-        [sn(10, 62, 64), sn(11, 65, 68)],       /* الميم والنون · حكم التنوين */
+        [sn(10, 62, 64)],                          /* النون والميم المشددتين والميم الساكنة */
+[sn(11, 65, 68)],                          /* أحكام النون الساكنة والتنوين */
         [sn(12, 69, 72)],                       /* المد والقصر */
         [sn(13, 73, 78)],                       /* معرفة الوقوف */
         [sn(14, 79, 93)],                       /* المقطوع والموصول وحكم التاء */
@@ -446,8 +450,12 @@
     var tab = rec && rec.id ? map[rec.id] : null;
     var F = (tab && t && t.f) ? tab[t.f] : null;
     if (!F || !t.v) return null;
-    if (t.v[1] - t.v[0] + 1 !== F.length - 1) return null;
-    return F;
+    var base = (t.base != null) ? t.base : t.v[0];
+    var startIdx = t.v[0] - base;
+    var count = t.v[1] - t.v[0] + 1;
+    if (startIdx < 0 || startIdx + count > F.length - 1) return null;
+    if (count <= 0) return null;
+    return F.slice(startIdx, startIdx + count + 1);
   }
   /* F = مواضع بدايات الأبيات */
   function timingTable(t) { return timingLookup(TIMINGS, t); }
@@ -718,7 +726,7 @@
   function subText() {
     var name = RECITERS[state.reciter].name;
     var s;
-    if (isFull()) s = name + " · ١٧ بابًا";
+    if (isFull()) s = name + " · ١٩ بابًا";
     else {
       s = name + " · " + arNum(verseCount(state.index)) + " أبيات";
       var list = parts();
