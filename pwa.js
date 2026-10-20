@@ -1,19 +1,15 @@
-/* عامل الخدمة (PWA) + نافذة منبثقة لإعلام الزائر بإمكانية تثبيت الموقع كتطبيق
-   ---------------------------------------------------------------------------
+/* عامل الخدمة (PWA) + لافتة تثبيت التطبيق أسفل الشاشة
+   -----------------------------------------------------
    تسجيل عامل الخدمة لا يتم في:
    - بيئة التطوير (الفتح من الملفات مباشرة file://)
    - داخل إطار المعاينة (iframe)
    - مسارات تسجيل الدخول/OAuth
    ويمكن تعطيله مؤقتًا بإضافة ?sw=off إلى الرابط.
 
-   نافذة «ثبّت التطبيق» تظهر تلقائيًا عند زيارته (بعد ثوانٍ من نزول الصفحة)
-   مرةً كل ٧ أيام كحدٍّ أقصى في المتصفحات القابلة للتثبيت، وعلى الآيفون/الآيباد
-   تعرض خطوات الإضافة إلى الشاشة الرئيسية. تختفي نهائيًا بعد التثبيت. */
+   لافتة «ثبّت التطبيق» تظهر فور فتح الرابط في أسفل الشاشة
+   (شريط مضغوط بلا قوائم خطوات)، وتخفى نهائيًا بعد التثبيت. */
 (function () {
   "use strict";
-
-  var LS_KEY = "jazariyyah-inst-popup"; /* آخر ظهور/إجابة الزائر */
-  var COOLDOWN = 7 * 24 * 3600 * 1000;  /* أسبوع واحد */
 
   function mark(state) {
     try {
@@ -25,13 +21,6 @@
     try {
       document.documentElement.setAttribute(name, value);
     } catch (e) {}
-  }
-
-  function lsGet(key) {
-    try { return localStorage.getItem(key); } catch (e) { return null; }
-  }
-  function lsSet(key, val) {
-    try { localStorage.setItem(key, val); } catch (e) {}
   }
 
   function flags() {
@@ -51,16 +40,15 @@
   var F = flags();
   var skipAll = F.inFrame || F.isDev || F.isAuth || F.disabled;
 
-  /* ==================== نافذة تثبيت التطبيق ==================== */
+  /* ==================== لافتة تثبيت التطبيق (أسفل الشاشة) ==================== */
   var deferredPrompt = null;
+  var bannerOpen = false;
   var ua = navigator.userAgent || "";
   var isIOS =
     /iphone|ipad|ipod/i.test(ua) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  var isMobile = isIOS || /android|mobile|opera mini|iemobile/i.test(ua);
   var isAndroid = /android/i.test(ua);
   var inWebView = isAndroid && /;\s*wv\)/i.test(ua);
-  var popupOpen = false;
   var standalone = false;
   try {
     standalone =
@@ -69,32 +57,21 @@
       navigator.standalone === true;
   } catch (e) {}
 
-  /* هل يحقّ لنا عرض النافذة هذه الزيارة؟ (مرّ أسبوع عن آخر ظهور) */
-  function cooldownPassed() {
-    var last = parseInt(lsGet(LS_KEY) || "0", 10);
-    if (!last || isNaN(last)) return true;
-    return Date.now() - last > COOLDOWN;
-  }
-  function recordPopup() {
-    lsSet(LS_KEY, String(Date.now()));
-  }
-
-  function ensureOverlay() {
-    var ov = document.getElementById("instHelp");
+  function ensureBanner() {
+    var ov = document.getElementById("instBanner");
     if (!ov) {
       ov = document.createElement("div");
-      ov.id = "instHelp";
+      ov.id = "instBanner";
       ov.className = "inst-help";
       var card = document.createElement("div");
       card.className = "inst-card";
       card.setAttribute("role", "dialog");
-      card.setAttribute("aria-modal", "true");
+      card.setAttribute("aria-live", "polite");
       ov.appendChild(card);
       ov.addEventListener("click", function (e) {
         if (e.target === ov) {
           ov.classList.remove("open");
-          popupOpen = false;
-          recordPopup();
+          bannerOpen = false;
         }
       });
       document.body.appendChild(ov);
@@ -102,43 +79,30 @@
     return ov;
   }
 
-  function stepsHtml(kind, intentUrl) {
+  /* سطر واحد مختصر بدل قائمة الخطوات */
+  function hintLine(kind, intentUrl) {
     if (kind === "ios") {
-      return (
-        '<h4>📲 ثبّت «متون الجزرية» كتطبيق</h4><p>يعمل دون اتصال بعد التثبيت، على الآيفون والآيباد:</p>' +
-        "<ol>" +
-        '<li>اضغط زر <b>المشاركة</b> <span class="ic">⬆️</span> في شريط المتصفح.</li>' +
-        '<li>اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span>.</li>' +
-        '<li>اضغط <b>«إضافة»</b> — وسيظهر التطبيق بأيقونته، ويعمل دون إنترنت.</li>' +
-        "</ol>"
-      );
+      return '<p>اضغط زر <b>المشاركة</b> <span class="ic">⬆️</span> ثم اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span>.</p>';
     }
     if (kind === "android") {
       return (
-        '<h4>📲 ثبّت «متون الجزرية» كتطبيق</h4><p>يعمل دون اتصال بعد التثبيت، على أندرويد (متصفح كروم):</p>' +
-        "<ol>" +
-        '<li>اضغط زر المزيد <span class="ic">⋮</span> في شريط المتصفح.</li>' +
-        '<li>اختر <b>«تثبيت التطبيق»</b> — أو <b>«إضافة إلى الشاشة الرئيسية»</b> في الإصدارات الأقدم.</li>' +
-        '<li>اضغط <b>«تثبيت»</b> — وسيظهر التطبيق بأيقونته، ويعمل دون إنترنت.</li>' +
-        "</ol>" +
-        '<p class="inst-note">إن لم يظهر خيار التثبيت: تأكد أنك في <b>متصفح كروم</b> (أو متصفح سامسونج إنترنت) لا داخل تطبيق آخر، وحدِّث المتصفح و«خدمات Google Play» من متجر Play، ثم أعد فتح الرابط وانتظر قليلًا قبل المحاولة.</p>' +
+        '<p>من قائمة المتصفح <span class="ic">⋮</span> اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>.</p>' +
         (inWebView
           ? '<p><a class="btn btn-solid btn-sm" href="' + intentUrl + '">افتح في متصفح كروم</a></p>'
           : "")
       );
     }
-    return (
-      '<h4>📲 ثبّت «متون الجزرية» كتطبيق</h4><p>يعمل دون اتصال بعد التثبيت، في متصفحك:</p>' +
-      "<ol>" +
-      '<li>افتح قائمة المتصفح <span class="ic">⋮</span> ثم اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>.</li>' +
-      "<li>ثم اضغط <b>«تثبيت/إضافة»</b> — وسيظهر التطبيق بأيقونته، ويعمل دون إنترنت.</li>" +
-      "</ol>"
-    );
+    return '<p>من قائمة المتصفح <span class="ic">⋮</span> اختر <b>«تثبيت التطبيق»</b>.</p>';
   }
 
-  function showPopup(kind) {
-    if (standalone || popupOpen) return;
-    var ov = ensureOverlay();
+  function closeBanner(ov) {
+    ov.classList.remove("open");
+    bannerOpen = false;
+  }
+
+  function showBanner(kind) {
+    if (standalone || bannerOpen) return;
+    var ov = ensureBanner();
     var cardEl = ov.querySelector(".inst-card");
     var intentUrl =
       "intent://" +
@@ -147,23 +111,24 @@
       window.location.search +
       "#Intent;scheme=https;package=com.android.chrome;end";
 
-    var havePrompt = !!deferredPrompt;
-    var installBtnHtml = (kind === "ios")
-      ? ""
-      : '<button type="button" class="btn btn-solid btn-sm" data-install>تثبيت الآن</button>&nbsp;';
+    var actions =
+      '<div class="inst-actions">' +
+      (kind === "ios"
+        ? ""
+        : '<button type="button" class="btn btn-solid btn-sm" data-install>تثبيت الآن</button>') +
+      '<button type="button" class="btn btn-outline btn-sm" data-close>' +
+      (kind === "ios" ? "حسنًا" : "لاحقًا") +
+      "</button></div>";
 
     cardEl.innerHTML =
-      stepsHtml(kind, intentUrl) +
-      '<div class="inst-actions">' +
-      installBtnHtml +
-      '<button type="button" class="btn btn-outline btn-sm" data-close>لاحقًا</button>' +
-      "</div>";
+      '<div class="inst-head">📲</div>' +
+      '<div class="inst-body"><h4>ثبّت «متون الجزرية» كتطبيق</h4>' +
+      (kind === "ios" || kind === "android" || (kind === "generic" && !deferredPrompt)
+        ? hintLine(kind, intentUrl)
+        : '<p>يعمل دون اتصال بعد التثبيت.</p>') +
+      "</div>" +
+      actions;
 
-    cardEl.querySelector("[data-close]").addEventListener("click", function () {
-      ov.classList.remove("open");
-      popupOpen = false;
-      recordPopup();
-    });
     var bi = cardEl.querySelector("[data-install]");
     if (bi) {
       bi.addEventListener("click", function () {
@@ -174,43 +139,39 @@
           try {
             if (p.userChoice && p.userChoice.then) {
               p.userChoice.then(function () {
-                ov.classList.remove("open");
-                popupOpen = false;
-                recordPopup();
+                closeBanner(ov);
               })["catch"](function () {
-                ov.classList.remove("open");
-                popupOpen = false;
-                recordPopup();
+                closeBanner(ov);
               });
             } else {
-              ov.classList.remove("open");
-              popupOpen = false;
-              recordPopup();
+              closeBanner(ov);
             }
           } catch (e) {
-            ov.classList.remove("open");
-            popupOpen = false;
-            recordPopup();
+            closeBanner(ov);
           }
         } else {
-          /* بلا حدث تثبيت: نستبدل المحتوى بخطوات المتصفح */
+          /* بلا حدث تثبيت: سطر إرشادي مختصر للمتصفح */
           cardEl.innerHTML =
-            stepsHtml(isIOS ? "ios" : isAndroid ? "android" : "generic", intentUrl) +
+            '<div class="inst-head">📲</div>' +
+            '<div class="inst-body"><h4>ثبّت «متون الجزرية» كتطبيق</h4>' +
+            hintLine(isIOS ? "ios" : isAndroid ? "android" : "generic", intentUrl) +
+            "</div>" +
             '<div class="inst-actions"><button type="button" class="btn btn-outline btn-sm" data-close>حسنًا</button></div>';
           cardEl.querySelector("[data-close]").addEventListener("click", function () {
-            ov.classList.remove("open");
-            popupOpen = false;
-            recordPopup();
+            closeBanner(ov);
           });
         }
       });
     }
+    cardEl.querySelector("[data-close]").addEventListener("click", function () {
+      closeBanner(ov);
+    });
+
     ov.classList.add("open");
-    popupOpen = true;
-    recordPopup();
+    bannerOpen = true;
   }
 
-  function setupInstall() {
+  function setupBanner() {
     if (standalone) {
       setAttr("data-install", "standalone");
       return;
@@ -220,40 +181,29 @@
       e.preventDefault();
       deferredPrompt = e;
       setAttr("data-install", "ready");
+      /* إن فُتحت اللافتة قبل وصول الحدث فزر «تثبيت الآن» سيستعمله عند النقر */
     });
 
     window.addEventListener("appinstalled", function () {
       deferredPrompt = null;
       mark("installed");
       setAttr("data-install", "done");
-      var ov = document.getElementById("instHelp");
-      if (ov) {
-        ov.classList.remove("open");
-        popupOpen = false;
-      }
+      var ov = document.getElementById("instBanner");
+      if (ov) closeBanner(ov);
     });
 
-    /* متى تظهر النافذة:
-       - آيفون/آيباد: بعد نزول الصفحة قليلًا (لا يوجد إشعار تثبيت تلقائي).
-       - كروم/إيدج وأندرويد: عند وصول حدث beforeinstallprompt، أو بعد ٦ ثوانٍ إن تأخّر. */
-    if (cooldownPassed()) {
-      window.setTimeout(function () {
-        if (standalone || popupOpen || cooldownPassed() === false) return;
-        if (isIOS) {
-          showPopup("ios");
-        } else if (deferredPrompt) {
-          showPopup("installable");
-        } else {
-          window.setTimeout(function () {
-            if (standalone || popupOpen || deferredPrompt) return;
-            showPopup("installable");
-          }, 6000);
-        }
-      }, 1500);
-    }
+    /* تظهر فور فتح الرابط — دون أي تأخير */
+    var kind = isIOS ? "ios" : deferredPrompt ? "installable" : isAndroid ? "android" : "generic";
+    showBanner(kind);
   }
 
-  if (!skipAll) setupInstall();
+  if (!skipAll) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupBanner);
+    } else {
+      setupBanner();
+    }
+  }
 
   /* ==================== تسجيل عامل الخدمة ==================== */
   function register() {
