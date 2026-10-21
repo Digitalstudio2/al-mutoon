@@ -319,7 +319,7 @@ body.dark .header-inner .tool-btn{background:#0f1814;border-color:#233029}
 body.dark .matn-tip{color:#b3a06f!important;background:#131f19}
 body.dark .matn-tip b{color:#8fe0b6}
 
-.bab-sec{margin-bottom:38px;scroll-margin-top:130px}
+.bab-sec{margin-bottom:38px;scroll-margin-top:var(--anchor-clr,130px)}
 /* بقاء إبراز عنوان الباب عند القدوم من الفهرس: نقلة أولية ثم ثبات */
 @keyframes tocflash{
   0%{background:rgba(18,92,69,.35);box-shadow:0 0 0 3px var(--gold),0 0 0 14px rgba(18,92,69,.22)}

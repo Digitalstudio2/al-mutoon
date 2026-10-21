@@ -332,6 +332,12 @@
 
     initCopy();
     initScrollSpy();
+    /* قفزة الوصلة عند الفتح بها (بطاقات الرئيسية → matn.html#id) بنفس بُعد زرّ الفهرس،
+       مع مدّ متزامن عند جهوزية الخطوط وتغيّر العرض */
+    syncAnchorVar();
+    hashSnap();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { syncAnchorVar(); hashSnap(); }).catch(function () {});
+    window.addEventListener("resize", syncAnchorVar);
     /* إبراز ثابت لباب الوصلة عند الفتح بها (matn.html#id) */
     const hid = decodeURIComponent(location.hash || "").slice(1);
     const hsec = hid ? document.getElementById(hid) : null;
@@ -431,6 +437,32 @@
   }
 
   /* ---------- تتبّع الباب الظاهر ---------- */
+  /* بُعد المرتكز الآمن: الشريطان الثابتان (الرأس + شريط أدوات المتن) يتكدسان
+     متوسطَين عند العمق، فأعطالَهما الأعلى هو الظاهر — ((الذي كان سابقًا يحسب
+     ارتفاع الرأس وحده + ثابت 52 فيظهر العنوان مقصوصًا تحت الشريطين عند العروض الضيقة)) */
+  function anchorClearance() {
+    const header = document.querySelector(".header");
+    const toolbar = document.querySelector(".toolbar");
+    const hh = header ? header.offsetHeight : 0;
+    const th = toolbar ? toolbar.offsetHeight : 0;
+    return Math.max(hh, th) + 20;
+  }
+
+  /* مزامنة بُعد قفزة الهاش الأصلية (.bab-sec{scroll-margin-top}) مع البُعد ذاته */
+  function syncAnchorVar() {
+    document.documentElement.style.setProperty("--anchor-clr", anchorClearance() + "px");
+  }
+
+  /* قفزة الهاش الصريحة (بطاقات الرئيسية → المتن#id): تفيد عند تأخر قفزة المتصفح الأصلية */
+  function hashSnap() {
+    const hid = decodeURIComponent(location.hash || "").slice(1);
+    if (!hid) return;
+    const sec = document.getElementById(hid);
+    if (!sec || !sec.classList.contains("bab-sec")) return;
+    const top = sec.getBoundingClientRect().top + window.scrollY - anchorClearance();
+    window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+  }
+
   function initScrollSpy() {
     const links = $$("#toc a");
     if (!links.length) return;
@@ -458,7 +490,7 @@
           const header = document.querySelector(".header");
           const h3 = sec.querySelector("h3");
           const anchor = h3 || sec;
-          const offset = (header ? header.offsetHeight : 0) + 52;
+          const offset = anchorClearance();
           const top = anchor.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
           sec.classList.remove("toc-jump");
