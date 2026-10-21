@@ -120,7 +120,7 @@
       return (
         '<a class="bab-card" href="matn.html#' + b.id + '">' +
         '<span class="no">' + arNum(b.num < 10 ? "0" + b.num : b.num) + "</span>" +
-        '<span class="ic">' + icon(i) + "</span>" +
+        '<span class="ic num">' + arNum(String(b.num)) + "</span>" +
         "<h3>" + b.title + "</h3>" +
         "<p>" + b.desc + "</p>" +
         '<div class="meta">' + arNum(b.verses.length) + " بيتًا · اقرأ الباب ›" +

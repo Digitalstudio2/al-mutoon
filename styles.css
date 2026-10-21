@@ -184,6 +184,10 @@ body.dark.islamic-bg{
   background:linear-gradient(135deg,var(--green-deep),var(--green-2));color:var(--gold-2);
   border:1.5px solid var(--gold);margin-bottom:12px
 }
+.bab-card .ic.num{
+  font-family:'Aref Ruqaa','Amiri',serif;font-size:24px;font-weight:700;line-height:1;
+  padding-top:3px
+}
 .bab-card .ic svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.6}
 .bab-card h3{margin:0 0 6px;font-size:20px;color:var(--green-deep)}
 .bab-card p{margin:0;font-size:13.5px;color:#41514a}
