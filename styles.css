@@ -230,7 +230,8 @@ body.dark .src-note a:hover{color:#fff}
 .cta p{margin:0;opacity:.9}
 
 /* ---------- التذييل ---------- */
-.footer{background:#04170f;color:#d6e4de;padding:44px 0 0;border-top:4px solid var(--gold)}
+.footer{background:#04170f;color:#d6e4de;padding:44px 0 0;border-top:4px solid var(--gold);
+  padding-bottom:env(safe-area-inset-bottom, 0px)}
 .footer-grid{display:grid;grid-template-columns:1.3fr .8fr .9fr;gap:26px}
 .footer h3,.footer h4{color:var(--gold-2);margin:0 0 10px}
 .footer p{margin:0 0 8px;font-size:14px;line-height:1.9}
@@ -571,7 +572,8 @@ body.dark .page-hero{background:linear-gradient(135deg,#04110b,#081c14 55%,#0c33
   box-shadow:0 -10px 34px rgba(0,0,0,.28);
   transition:box-shadow .2s
 }
-.pl-inner{display:flex;align-items:center;gap:10px;padding:10px 20px 12px;flex-wrap:wrap}
+.pl-inner{display:flex;align-items:center;gap:10px;padding:10px 20px 12px;flex-wrap:wrap;
+  padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
 .pl-btn{
   border:0;cursor:pointer;font-family:inherit;flex:none;
   background:rgba(255,255,255,.09);color:#f4ecd8;border-radius:50px;
@@ -765,7 +767,8 @@ body.dark .install-app{box-shadow:0 6px 18px rgba(0,0,0,.35)}
 /* نافذة تعليمات التنزيل */
 .inst-help{
   position:fixed;inset:0;z-index:400;display:none;align-items:flex-end;justify-content:center;
-  background:rgba(4,23,15,.38);padding:0 14px
+  background:rgba(4,23,15,.38);padding:0 14px;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px))
 }
 .inst-help.open{display:flex}
 .inst-card{
