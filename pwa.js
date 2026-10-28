@@ -82,7 +82,7 @@
   /* سطر واحد مختصر بدل قائمة الخطوات */
   function hintLine(kind, intentUrl) {
     if (kind === "ios") {
-      return '<p>اضغط <b>«تثبيت التطبيق»</b> أدناه، ثم اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span> من ورقة المشاركة.</p>';
+      return '<p>افتح ورقة المشاركة <b>⬆️</b> ثم اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span>.</p>';
     }
     if (kind === "android") {
       return (
@@ -180,8 +180,20 @@
                 closeBanner(ov);
               })
               ["catch"](function () {});
+            return;
           }
         } catch (e) {}
+        /* مسند دعم الورق البرمجي (سفاري قديم أو ممنوع من التصريح): أظهر الخطوات المرئية فورًا */
+        cardEl.innerHTML =
+          '<div class="inst-head">📲</div>' +
+          '<div class="inst-body"><h4>ثبّت «متون الجزرية» كتطبيق</h4>' +
+          hintLine("ios", "") +
+          '<p class="inst-note">زر المشاركة <b>⬆️</b> في وسط شريط سفاري أسفل الشاشة.</p>' +
+          "</div>" +
+          '<div class="inst-actions"><button type="button" class="btn btn-outline btn-sm" data-close>حسنًا</button></div>';
+        cardEl.querySelector("[data-close]").addEventListener("click", function () {
+          closeBanner(ov);
+        });
       });
     }
 
