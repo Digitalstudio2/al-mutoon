@@ -82,7 +82,7 @@
   /* سطر واحد مختصر بدل قائمة الخطوات */
   function hintLine(kind, intentUrl) {
     if (kind === "ios") {
-      return '<p>اضغط زر <b>المشاركة</b> <span class="ic">⬆️</span> ثم اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span>.</p>';
+      return '<p>اضغط <b>«تثبيت التطبيق»</b> أدناه، ثم اختر <b>«إضافة إلى الشاشة الرئيسية»</b> <span class="ic">➕</span> من ورقة المشاركة.</p>';
     }
     if (kind === "android") {
       return (
@@ -114,10 +114,10 @@
     var actions =
       '<div class="inst-actions">' +
       (kind === "ios"
-        ? ""
+        ? '<button type="button" class="btn btn-solid btn-sm" data-ios-share>تثبيت التطبيق</button>'
         : '<button type="button" class="btn btn-solid btn-sm" data-install>تثبيت الآن</button>') +
       '<button type="button" class="btn btn-outline btn-sm" data-close>' +
-      (kind === "ios" ? "حسنًا" : "لاحقًا") +
+      (kind === "ios" ? "لاحقًا" : "لاحقًا") +
       "</button></div>";
 
     cardEl.innerHTML =
@@ -166,6 +166,24 @@
     cardEl.querySelector("[data-close]").addEventListener("click", function () {
       closeBanner(ov);
     });
+
+    /* زر التثبيت على الأيفون: يفتح ورقة المشاركة الأصلية (navigator.share مدعوم في
+       سفاري iOS) ومنها «إضافة إلى الشاشة الرئيسية»؛ وإلغاء الورقة يبقي اللافتة مفتوحة */
+    var iosh = cardEl.querySelector("[data-ios-share]");
+    if (iosh) {
+      iosh.addEventListener("click", function () {
+        try {
+          if (navigator.share) {
+            navigator
+              .share({ title: document.title, url: window.location.href })
+              .then(function () {
+                closeBanner(ov);
+              })
+              ["catch"](function () {});
+          }
+        } catch (e) {}
+      });
+    }
 
     ov.classList.add("open");
     bannerOpen = true;
