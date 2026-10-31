@@ -154,7 +154,7 @@
   }
 
   /* ============================================================
-     الحفظ: تعليم الأبيات المحفوظة («تم الحفظ»)
+     الحفظ: تعليم الأبيات المحفوظة («حفظت»)
      يُخزَّن محليًا في المتصفح، ويظهر العدّاد في شريط الأدوات
      وشارة لكل باب وفي الفهرس الجانبي.
      ============================================================ */
@@ -206,9 +206,10 @@
     const b = el.querySelector(".vb-hifz");
     if (b) {
       b.classList.toggle("on", on);
+      b.textContent = on ? "حفظت ✓" : "حفظت";
       b.setAttribute("aria-pressed", on ? "true" : "false");
-      b.title = on ? "إلغاء تعليم البيت محفوظًا" : "تم الحفظ";
-      b.setAttribute("aria-label", (on ? "إلغاء تعليم البيت " : "تم الحفظ — البيت ") + arNum(n));
+      b.title = on ? "إلغاء حفظ البيت" : "حفظت";
+      b.setAttribute("aria-label", (on ? "إلغاء حفظ البيت — البيت " : "حفظت — البيت ") + arNum(n));
     }
   }
 
@@ -242,7 +243,7 @@
     hifzProgress();
   }
 
-  /* أزرار البيت: «تم الحفظ» */
+  /* أزرار البيت: «حفظت» و«نسخ» */
   function initVerseActions() {
     document.addEventListener("click", function (e) {
       if (!e.target || !e.target.closest) return;
@@ -309,8 +310,8 @@
             '<div class="bayt" data-n="' + v.n + '" data-bab="' + b.id + '" data-raw="' + escapeHtml(full) + '">' +
             '<span class="num">' + arNum(v.n) + "</span>" +
             '<span class="acts">' +
-              '<button class="vb vb-hifz" type="button" data-hifz="' + v.n + '" aria-pressed="false" title="تم الحفظ" aria-label="تم الحفظ — البيت ' + arNum(v.n) + '">✓</button>' +
-              '<button class="vb vb-copy copy-btn" type="button" title="نسخ البيت" aria-label="نسخ البيت ' + arNum(v.n) + '">⧉</button>' +
+              '<button class="vb vb-hifz" type="button" data-hifz="' + v.n + '" aria-pressed="false" title="حفظت" aria-label="حفظت — البيت ' + arNum(v.n) + '">حفظت</button>' +
+              '<button class="vb vb-copy copy-btn" type="button" title="نسخ البيت" aria-label="نسخ البيت ' + arNum(v.n) + '">نسخ</button>' +
             "</span>" +
             '<div class="text"><span class="h1">' + escapeHtml(v.a) + '</span>' +
             '<span class="sep">۞</span>' +
@@ -352,8 +353,9 @@
         const raw = this.closest(".bayt").getAttribute("data-raw");
         const done = () => {
           this.classList.add("ok");
+          this.textContent = "تم النسخ";
           this.title = "تم نسخ البيت";
-          setTimeout(() => { this.classList.remove("ok"); this.title = "نسخ البيت"; }, 1400);
+          setTimeout(() => { this.classList.remove("ok"); this.textContent = "نسخ"; this.title = "نسخ البيت"; }, 1400);
         };
         if (navigator.clipboard) navigator.clipboard.writeText(raw).then(done.bind(this), () => fallbackCopy(raw, done.bind(this)));
         else fallbackCopy(raw, done.bind(this));
